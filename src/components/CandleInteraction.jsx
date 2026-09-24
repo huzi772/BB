@@ -9,6 +9,21 @@ export default function CandleInteraction({ visible = false, onBlow, onComplete 
   const wishTextRef = useRef(null);
   const blowBtnRef = useRef(null);
 
+  const onCompleteRef = useRef(onComplete);
+  onCompleteRef.current = onComplete;
+
+  const onBlowRef = useRef(onBlow);
+  onBlowRef.current = onBlow;
+
+  const timersRef = useRef([]);
+
+  useEffect(() => {
+    return () => {
+      timersRef.current.forEach((id) => clearTimeout(id));
+      timersRef.current = [];
+    };
+  }, []);
+
   useEffect(() => {
     if (!visible || !containerRef.current) return;
 
@@ -36,9 +51,7 @@ export default function CandleInteraction({ visible = false, onBlow, onComplete 
     audioManager.playSound('candle-blow');
 
     // Notify 3D CakeScene to start flame wavering and extinguishing
-    if (onBlow) {
-      onBlow();
-    }
+    onBlowRef.current?.();
 
     // Duck background audio to near-silence
     audioManager.duck(0.05, 0.5);
@@ -53,16 +66,16 @@ export default function CandleInteraction({ visible = false, onBlow, onComplete 
     });
 
     // Play extinguish SFX shortly after blow starts
-    setTimeout(() => {
+    const timer1 = setTimeout(() => {
       audioManager.playSound('candle-extinguish');
     }, 800);
+    timersRef.current.push(timer1);
 
     // Transition to next scene after extinguishment and pause
-    setTimeout(() => {
-      if (onComplete) {
-        onComplete();
-      }
+    const timer2 = setTimeout(() => {
+      onCompleteRef.current?.();
     }, 2500);
+    timersRef.current.push(timer2);
   };
 
   if (!visible) return null;

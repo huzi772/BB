@@ -5,6 +5,9 @@ import audioManager from '../audio/audioManager';
 import Fireworks from '../effects/fireworks';
 
 export default function BirthdayReveal({ onComplete }) {
+  const onCompleteRef = useRef(onComplete);
+  onCompleteRef.current = onComplete;
+
   const containerRef = useRef(null);
   const titleRef = useRef(null);
   const nameRef = useRef(null);
@@ -93,9 +96,7 @@ export default function BirthdayReveal({ onComplete }) {
 
   const handleContinue = () => {
     audioManager.playSound('transition-whoosh');
-    if (onComplete) {
-      onComplete();
-    }
+    onCompleteRef.current?.();
   };
 
   return (

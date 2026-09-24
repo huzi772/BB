@@ -5,6 +5,9 @@ import ParticleField from '../effects/particles.jsx';
 import audioManager from '../audio/audioManager';
 
 export default function EntryScreen({ onComplete }) {
+  const onCompleteRef = useRef(onComplete);
+  onCompleteRef.current = onComplete;
+
   const containerRef = useRef(null);
   const textRef = useRef(null);
   const buttonRef = useRef(null);
@@ -64,7 +67,7 @@ export default function EntryScreen({ onComplete }) {
         stagger: 0.1,
         ease: 'power2.in',
         onComplete: () => {
-          if (onComplete) onComplete();
+          onCompleteRef.current?.();
         }
       });
     }, containerRef);

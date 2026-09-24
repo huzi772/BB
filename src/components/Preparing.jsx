@@ -5,6 +5,9 @@ import ParticleField from '../effects/particles.jsx';
 import audioManager from '../audio/audioManager';
 
 export default function Preparing({ onComplete }) {
+  const onCompleteRef = useRef(onComplete);
+  onCompleteRef.current = onComplete;
+
   const containerRef = useRef(null);
   const line1Ref = useRef(null);
   const line2Ref = useRef(null);
@@ -55,9 +58,9 @@ export default function Preparing({ onComplete }) {
           duration: 0.6,
           ease: 'power2.in',
           onComplete: () => {
-            if (!isCompleted && onComplete) {
+            if (!isCompleted) {
               isCompleted = true;
-              onComplete();
+              onCompleteRef.current?.();
             }
           }
         });

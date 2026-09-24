@@ -3,6 +3,9 @@ import gsap from 'gsap';
 import audioManager from '../audio/audioManager';
 
 export default function Countdown({ onComplete }) {
+  const onCompleteRef = useRef(onComplete);
+  onCompleteRef.current = onComplete;
+
   const containerRef = useRef(null);
   const numberRef = useRef(null);
   const ringRef = useRef(null);
@@ -62,9 +65,9 @@ export default function Countdown({ onComplete }) {
           duration: 0.15,
           ease: 'power2.out',
           onComplete: () => {
-            if (!isCompleted && onComplete) {
+            if (!isCompleted) {
               isCompleted = true;
-              onComplete();
+              onCompleteRef.current?.();
             }
           }
         });

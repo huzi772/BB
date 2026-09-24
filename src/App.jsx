@@ -20,10 +20,50 @@ export const SCENES = [
   "final"
 ];
 
+class SceneErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error('Scene rendering error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="scene" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '2rem', textAlign: 'center' }}>
+          <h2 style={{ fontFamily: 'Cormorant Garamond, serif', color: 'var(--gold)', fontSize: '2rem', marginBottom: '1rem' }}>
+            Something went wrong rendering this scene.
+          </h2>
+          <button
+            className="btn-gold"
+            onClick={() => window.location.reload()}
+            style={{ cursor: 'pointer', padding: '0.8rem 1.6rem' }}
+          >
+            Reload App
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 export default function App() {
   const [currentSceneIndex, setCurrentSceneIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+
+  const sceneIndexRef = useRef(0);
+  const transitioningRef = useRef(false);
   const overlayRef = useRef(null);
+  const activeTimelineRef = useRef(null);
+  const fallbackTimerRef = useRef(null);
 
   // Check URL parameter for ?dev=1 mode
   const [isDevMode, setIsDevMode] = useState(false);
@@ -37,25 +77,61 @@ export default function App() {
 
   const currentScene = SCENES[currentSceneIndex];
 
-  const transitionToScene = (targetIndex) => {
-    if (isTransitioning || targetIndex === currentSceneIndex) return;
+  const clearFallbackTimer = () => {
+    if (fallbackTimerRef.current) {
+      clearTimeout(fallbackTimerRef.current);
+      fallbackTimerRef.current = null;
+    }
+  };
 
+  const resetTransitionState = () => {
+    clearFallbackTimer();
+    transitioningRef.current = false;
+    setIsTransitioning(false);
+    if (overlayRef.current) {
+      overlayRef.current.style.opacity = '0';
+      overlayRef.current.style.pointerEvents = 'none';
+    }
+  };
+
+  const transitionToScene = (targetIndex) => {
+    if (transitioningRef.current || targetIndex === sceneIndexRef.current) return;
+
+    transitioningRef.current = true;
     setIsTransitioning(true);
+
+    clearFallbackTimer();
+    fallbackTimerRef.current = setTimeout(() => {
+      console.warn('[App] Transition fallback timer triggered. Resetting transition lock.');
+      if (activeTimelineRef.current) {
+        activeTimelineRef.current.kill();
+        activeTimelineRef.current = null;
+      }
+      resetTransitionState();
+    }, 3000);
 
     const overlay = overlayRef.current;
     if (!overlay) {
+      sceneIndexRef.current = targetIndex;
       setCurrentSceneIndex(targetIndex);
-      setIsTransitioning(false);
+      resetTransitionState();
       return;
+    }
+
+    if (activeTimelineRef.current) {
+      activeTimelineRef.current.kill();
     }
 
     // Cinematic fade-through-black transition (total ~0.8s)
     const tl = gsap.timeline();
+    activeTimelineRef.current = tl;
+
     tl.to(overlay, {
       opacity: 1,
       duration: 0.4,
       ease: 'power2.inOut',
       onComplete: () => {
+        sceneIndexRef.current = targetIndex;
         setCurrentSceneIndex(targetIndex);
       }
     }).to(overlay, {
@@ -63,10 +139,20 @@ export default function App() {
       duration: 0.4,
       ease: 'power2.inOut',
       onComplete: () => {
-        setIsTransitioning(false);
+        activeTimelineRef.current = null;
+        resetTransitionState();
       }
     });
   };
+
+  useEffect(() => {
+    return () => {
+      clearFallbackTimer();
+      if (activeTimelineRef.current) {
+        activeTimelineRef.current.kill();
+      }
+    };
+  }, []);
 
   const goTo = (sceneName) => {
     const idx = SCENES.indexOf(sceneName);
@@ -76,7 +162,7 @@ export default function App() {
   };
 
   const next = () => {
-    const nextIdx = (currentSceneIndex + 1) % SCENES.length;
+    const nextIdx = Math.min(sceneIndexRef.current + 1, SCENES.length - 1);
     transitionToScene(nextIdx);
   };
 
@@ -116,7 +202,9 @@ export default function App() {
   return (
     <div style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden', backgroundColor: '#050509' }}>
       {/* Active Scene Content */}
-      {renderCurrentSceneComponent()}
+      <SceneErrorBoundary>
+        {renderCurrentSceneComponent()}
+      </SceneErrorBoundary>
 
       {/* Fullscreen Transition Overlay */}
       <div

@@ -156,23 +156,46 @@ function ProceduralCake({ isBlowing, pointLightRef }) {
   const groupRef = useRef();
   const flameRefs = useRef([]);
   const flameScales = useRef([1, 1, 1, 1, 1]);
+  const blowTimerRef = useRef(0);
 
-  // Gentle rotation
+  // Reset blow timer if isBlowing changes to false
+  useEffect(() => {
+    if (!isBlowing) {
+      blowTimerRef.current = 0;
+      flameScales.current = [1, 1, 1, 1, 1];
+      flameRefs.current.forEach((ref) => {
+        if (ref) ref.visible = true;
+      });
+    }
+  }, [isBlowing]);
+
+  // Gentle rotation and staggered extinguishment
   useFrame((state, delta) => {
     if (groupRef.current) {
       groupRef.current.rotation.y += delta * 0.15;
     }
 
-    // Flame flicker animation if not extinguished
+    if (isBlowing) {
+      blowTimerRef.current += delta;
+    }
+
+    // Flame flicker and staggered extinguishment
     flameRefs.current.forEach((ref, idx) => {
       if (ref && ref.visible) {
         if (isBlowing) {
-          // Flame waver & shrink when blowing
-          flameScales.current[idx] = Math.max(0, flameScales.current[idx] - delta * 0.8);
-          ref.scale.setScalar(flameScales.current[idx] * (0.8 + Math.random() * 0.4));
-          ref.rotation.z = Math.sin(state.clock.elapsedTime * 15 + idx) * 0.4;
-          if (flameScales.current[idx] <= 0.05) {
-            ref.visible = false;
+          const delay = idx * 0.15; // Stagger ~0.15s per candle
+          if (blowTimerRef.current >= delay) {
+            flameScales.current[idx] = Math.max(0, flameScales.current[idx] - delta * 1.2);
+            ref.scale.setScalar(flameScales.current[idx] * (0.8 + Math.random() * 0.4));
+            ref.rotation.z = Math.sin(state.clock.elapsedTime * 15 + idx) * 0.4;
+            if (flameScales.current[idx] <= 0.05) {
+              ref.visible = false;
+            }
+          } else {
+            // Pre-delay wavering
+            const flicker = 1 + Math.sin(state.clock.elapsedTime * 18 + idx * 2) * 0.2;
+            ref.scale.set(flicker * 0.9, flicker * 1.1, flicker * 0.9);
+            ref.rotation.z = Math.sin(state.clock.elapsedTime * 20 + idx) * 0.25;
           }
         } else {
           // Normal flame flicker
@@ -224,7 +247,7 @@ function ProceduralCake({ isBlowing, pointLightRef }) {
         <meshStandardMaterial color="#D4AF7A" metalness={0.8} roughness={0.3} />
       </mesh>
       {/* Tier 1 Ivory Frosting Edge */}
-      <mesh position={[0, 0.83, 0]}>
+      <mesh position={[0, 0.83, 0]} rotation={[Math.PI / 2, 0, 0]}>
         <torusGeometry args={[1.3, 0.035, 12, 36]} />
         <meshStandardMaterial color="#F5EBDD" roughness={0.6} />
       </mesh>
@@ -240,7 +263,7 @@ function ProceduralCake({ isBlowing, pointLightRef }) {
         <meshStandardMaterial color="#D4AF7A" metalness={0.8} roughness={0.3} />
       </mesh>
       {/* Tier 2 Ivory Frosting Edge */}
-      <mesh position={[0, 1.42, 0]}>
+      <mesh position={[0, 1.42, 0]} rotation={[Math.PI / 2, 0, 0]}>
         <torusGeometry args={[0.95, 0.03, 12, 32]} />
         <meshStandardMaterial color="#F5EBDD" roughness={0.6} />
       </mesh>
@@ -293,6 +316,8 @@ function ProceduralCake({ isBlowing, pointLightRef }) {
 
 function CameraController({ onIntroComplete }) {
   const { camera } = useThree();
+  const cbRef = useRef(onIntroComplete);
+  cbRef.current = onIntroComplete;
 
   useEffect(() => {
     // Initial camera state
@@ -304,7 +329,7 @@ function CameraController({ onIntroComplete }) {
 
     const tl = gsap.timeline({
       onComplete: () => {
-        if (onIntroComplete) onIntroComplete();
+        cbRef.current?.();
       }
     });
 
@@ -321,7 +346,7 @@ function CameraController({ onIntroComplete }) {
     return () => {
       tl.kill();
     };
-  }, [camera, onIntroComplete]);
+  }, [camera]);
 
   return null;
 }
@@ -377,7 +402,19 @@ function ThreeCakeCanvas({ isBlowing, onIntroComplete }) {
 export default function CakeScene({ onComplete }) {
   const [isBlowing, setIsBlowing] = useState(false);
   const [showInteraction, setShowInteraction] = useState(false);
+  const introFinishedRef = useRef(false);
   const webGLSupported = hasWebGLSupport();
+
+  const handleIntroComplete = React.useCallback(() => {
+    if (!introFinishedRef.current) {
+      introFinishedRef.current = true;
+      setShowInteraction(true);
+    }
+  }, []);
+
+  const handleBlow = React.useCallback(() => {
+    setIsBlowing(true);
+  }, []);
 
   if (!webGLSupported) {
     return <FallbackCakeScene onComplete={onComplete} />;
@@ -388,12 +425,12 @@ export default function CakeScene({ onComplete }) {
       <div className="scene" style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden' }}>
         <ThreeCakeCanvas
           isBlowing={isBlowing}
-          onIntroComplete={() => setShowInteraction(true)}
+          onIntroComplete={handleIntroComplete}
         />
 
         <CandleInteraction
           visible={showInteraction}
-          onBlow={() => setIsBlowing(true)}
+          onBlow={handleBlow}
           onComplete={onComplete}
         />
       </div>
