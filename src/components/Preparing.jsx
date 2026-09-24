@@ -1,4 +1,4 @@
-import React, { useRef, useLayoutEffect } from 'react';
+import React, { useRef, useLayoutEffect, useEffect } from 'react';
 import gsap from 'gsap';
 import config from '../config';
 import ParticleField from '../effects/particles.jsx';
@@ -9,6 +9,11 @@ export default function Preparing({ onComplete }) {
   const line1Ref = useRef(null);
   const line2Ref = useRef(null);
   const dateRef = useRef(null);
+
+  useEffect(() => {
+    // Preload the CakeScene dynamic import chunk while Preparing is playing
+    import('./CakeScene').catch(() => {});
+  }, []);
 
   useLayoutEffect(() => {
     let isCompleted = false;

@@ -141,6 +141,10 @@ class AudioManager {
   /**
    * Plays a decoded sound effect.
    */
+  playSound(key, options = {}) {
+    return this.play(key, options);
+  }
+
   play(key, options = {}) {
     const { volume = 1, loop = false } = options;
 
@@ -242,6 +246,9 @@ class AudioManager {
   }
 
   unduck(duration = 0.5) {
+    if (arguments.length > 1 && typeof arguments[1] === 'number') {
+      duration = arguments[1];
+    }
     if (!this.initialized || !this.ctx || !this.musicGain) return;
     const now = this.ctx.currentTime;
     this.musicGain.gain.cancelScheduledValues(now);

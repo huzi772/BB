@@ -4,10 +4,11 @@ import gsap from 'gsap';
 import EntryScreen from './components/EntryScreen';
 import Countdown from './components/Countdown';
 import Preparing from './components/Preparing';
-import CakeScene from './components/CakeScene';
 import BirthdayReveal from './components/BirthdayReveal';
 import GiftCenter from './components/GiftCenter';
 import FinalScene from './components/FinalScene';
+
+const CakeScene = React.lazy(() => import('./components/CakeScene'));
 
 export const SCENES = [
   "entry",
@@ -88,7 +89,19 @@ export default function App() {
       case 'preparing':
         return <Preparing onComplete={next} />;
       case 'cake':
-        return <CakeScene onComplete={next} />;
+        return (
+          <React.Suspense
+            fallback={
+              <div className="scene" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <div style={{ fontFamily: 'Cormorant Garamond, serif', color: 'var(--gold)', fontStyle: 'italic', fontSize: '1.5rem' }}>
+                  Preparing the cake...
+                </div>
+              </div>
+            }
+          >
+            <CakeScene onComplete={next} />
+          </React.Suspense>
+        );
       case 'reveal':
         return <BirthdayReveal onComplete={next} />;
       case 'gifts':
