@@ -1,0 +1,32 @@
+/* ==========================================================================
+   Midnight Champagne Design System - Responsive Breakpoints
+   ========================================================================== */
+
+/* Mobile Breakpoint (< 600px) */
+@media (max-width: 599.98px) {
+  .scene {
+    padding: var(--space-3);
+  }
+
+  .btn-gold {
+    width: 100%;
+    max-width: 320px;
+    padding: var(--space-2) var(--space-3);
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+  }
+}
+
+/* Tablet Breakpoint (600px to 1024px) */
+@media (min-width: 600px) and (max-width: 1024px) {
+  .scene {
+    padding: var(--space-5);
+  }
+}
+
+/* Desktop Breakpoint (> 1024px) */
+@media (min-width: 1024.02px) {
+  .scene {
+    padding: var(--space-6);
+  }
+}

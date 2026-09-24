@@ -1,0 +1,181 @@
+/* ==========================================================================
+   Midnight Champagne Design System - Global Styles
+   ========================================================================== */
+
+:root {
+  /* Colors */
+  --bg-main: #050509;
+  --bg-secondary: #0D0B14;
+  --wine: #5C0F24;
+  --gold: #D4AF7A;
+  --ivory: #F5EBDD;
+  --glow-purple: rgba(140, 100, 220, 0.35);
+  --text-main: #F8F3EA;
+
+  /* Typography */
+  --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-sans: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Spacing Scale */
+  --space-1: 0.25rem;  /* 4px */
+  --space-2: 0.5rem;   /* 8px */
+  --space-3: 1rem;     /* 16px */
+  --space-4: 1.5rem;   /* 24px */
+  --space-5: 2rem;     /* 32px */
+  --space-6: 3rem;     /* 48px */
+  --space-7: 4rem;     /* 64px */
+  --space-8: 6rem;     /* 96px */
+}
+
+/* Reset & Global Rules */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Disable user selection on UI elements except inputs/textareas */
+body, button, a, nav, header, footer, select {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+input, textarea {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+/* Scene Container */
+.scene {
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at center, var(--bg-secondary) 0%, var(--bg-main) 100%);
+  padding: var(--space-4);
+  text-align: center;
+}
+
+/* Typography Hierarchy */
+h1, .heading-xl {
+  font-family: var(--font-serif);
+  font-size: clamp(2.2rem, 6vw + 1rem, 4.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+  color: var(--ivory);
+}
+
+h2, .heading-lg {
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 4vw + 0.8rem, 3.2rem);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--ivory);
+}
+
+h3, .heading-md {
+  font-family: var(--font-serif);
+  font-size: clamp(1.3rem, 2.5vw + 0.5rem, 2.2rem);
+  font-weight: 600;
+  color: var(--gold);
+}
+
+.subtitle {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.1rem, 2vw + 0.5rem, 1.6rem);
+  color: var(--gold);
+  letter-spacing: 0.05em;
+}
+
+p, .body-text {
+  font-family: var(--font-sans);
+  font-size: clamp(0.95rem, 1.2vw + 0.4rem, 1.15rem);
+  color: var(--text-main);
+  max-width: 65ch;
+}
+
+/* Button Styles */
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: var(--space-2) var(--space-5);
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  text-decoration: none;
+  outline: none;
+}
+
+.btn-gold:hover,
+.btn-gold:focus-visible {
+  background: rgba(212, 175, 122, 0.1);
+  color: var(--ivory);
+  border-color: var(--ivory);
+  box-shadow: 0 0 15px rgba(212, 175, 122, 0.4);
+  transform: translateY(-1px);
+}
+
+.btn-gold:active {
+  transform: translateY(1px);
+  box-shadow: 0 0 8px rgba(212, 175, 122, 0.3);
+}
+
+.btn-gold.active {
+  background: var(--gold);
+  color: var(--bg-main);
+  box-shadow: 0 0 15px rgba(212, 175, 122, 0.5);
+}
+
+/* Glow Utility Classes */
+.glow-gold-text {
+  text-shadow: 0 0 12px rgba(212, 175, 122, 0.6), 0 0 24px rgba(212, 175, 122, 0.3);
+}
+
+.glow-purple-text {
+  text-shadow: 0 0 12px rgba(140, 100, 220, 0.7), 0 0 25px rgba(140, 100, 220, 0.4);
+}
+
+.glow-gold-box {
+  box-shadow: 0 0 20px rgba(212, 175, 122, 0.35);
+}
+
+.glow-purple-box {
+  box-shadow: 0 0 20px var(--glow-purple);
+}
