@@ -300,14 +300,67 @@ function ProceduralCake({ isBlowing, pointLightRef }) {
             <cylinderGeometry args={[0.005, 0.005, 0.04, 8]} />
             <meshStandardMaterial color="#222" />
           </mesh>
-          {/* Flame Teardrop */}
-          <mesh
+          {/* Layered Realistic Flame Teardrop */}
+          <group
             ref={(el) => (flameRefs.current[i] = el)}
-            position={[0, 0.45, 0]}
+            position={[0, 0.41, 0]}
+            rotation={[0, 0, (i - 2) * 0.04]}
+            scale={[0.9, 1.0, 0.85]}
           >
-            <coneGeometry args={[0.04, 0.12, 12]} />
-            <meshBasicMaterial color="#FFD700" />
-          </mesh>
+            {/* Ambient Halo Circle */}
+            <mesh position={[0, 0.06, 0]}>
+              <planeGeometry args={[0.22, 0.22]} />
+              <meshBasicMaterial
+                color="#FFB74D"
+                transparent
+                opacity={0.25}
+                blending={THREE.AdditiveBlending}
+                depthWrite={false}
+              />
+            </mesh>
+
+            {/* Outer Flame (Orange-Yellow Glow) */}
+            <group position={[0, 0, 0]}>
+              {/* Bulb Base */}
+              <mesh position={[0, 0.03, 0]}>
+                <sphereGeometry args={[0.045, 10, 10]} />
+                <meshStandardMaterial
+                  color="#FFA726"
+                  emissive="#FFA726"
+                  emissiveIntensity={2.0}
+                  transparent
+                  opacity={0.85}
+                  blending={THREE.AdditiveBlending}
+                />
+              </mesh>
+              {/* Tapered Tip */}
+              <mesh position={[0, 0.07, 0]}>
+                <coneGeometry args={[0.042, 0.11, 10]} />
+                <meshStandardMaterial
+                  color="#FFA726"
+                  emissive="#FFA726"
+                  emissiveIntensity={2.0}
+                  transparent
+                  opacity={0.85}
+                  blending={THREE.AdditiveBlending}
+                />
+              </mesh>
+            </group>
+
+            {/* Inner Core (Hot Pale-Yellow / White) */}
+            <group position={[0, 0, 0]}>
+              {/* Core Base */}
+              <mesh position={[0, 0.025, 0]}>
+                <sphereGeometry args={[0.022, 8, 8]} />
+                <meshBasicMaterial color="#FFF3C4" />
+              </mesh>
+              {/* Core Tip */}
+              <mesh position={[0, 0.05, 0]}>
+                <coneGeometry args={[0.02, 0.07, 8]} />
+                <meshBasicMaterial color="#FFF3C4" />
+              </mesh>
+            </group>
+          </group>
         </group>
       ))}
     </group>
