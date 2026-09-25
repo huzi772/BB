@@ -112,7 +112,6 @@ export default function Letter({ onClose }) {
   };
 
   const paragraphs = (config.letterText || '').split('\n\n').filter(Boolean);
-  const recipientInitial = config.recipientName ? config.recipientName.trim()[0].toUpperCase() : 'S';
 
   return (
     <div
@@ -120,7 +119,7 @@ export default function Letter({ onClose }) {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justify: 'center',
+        justifyContent: 'center',
         width: '100%',
         maxWidth: '650px',
         margin: '0 auto',
@@ -138,7 +137,7 @@ export default function Letter({ onClose }) {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            justify: 'center',
+            justifyContent: 'center',
             minHeight: '380px',
             padding: '1rem 0'
           }}
@@ -181,7 +180,7 @@ export default function Letter({ onClose }) {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              justify: 'center',
+              justifyContent: 'center',
               overflow: 'hidden',
               transition: 'transform 0.3s ease, box-shadow 0.3s ease',
               zIndex: 2,
@@ -213,32 +212,30 @@ export default function Letter({ onClose }) {
                 width: '54px',
                 height: '54px',
                 borderRadius: '50%',
-                background: 'radial-gradient(circle at 35% 35%, #F5EBDD 0%, #D4AF7A 45%, #9A7338 90%)',
+                background: 'radial-gradient(circle at 40% 40%, #EADBCE 0%, #D4AF7A 45%, #9A7338 95%)',
                 border: '2px solid #7D5C23',
-                boxShadow: '0 6px 16px rgba(0,0,0,0.65), inset 0 2px 4px rgba(255,255,255,0.5), inset 0 -3px 5px rgba(0,0,0,0.4), 0 0 16px rgba(212, 175, 122, 0.5)',
+                boxShadow: '0 6px 16px rgba(0,0,0,0.65), inset 0 1px 2px rgba(255,255,255,0.2), inset 0 -2px 4px rgba(0,0,0,0.25), 0 0 16px rgba(212, 175, 122, 0.5)',
                 display: 'flex',
                 alignItems: 'center',
-                justify: 'center',
-                color: '#3B0A17',
-                fontSize: '1.45rem',
-                fontFamily: 'Cormorant Garamond, serif',
-                fontWeight: '700',
+                justifyContent: 'center',
                 userSelect: 'none'
               }}
             >
-              <span
+              {/* Inner subtle stamped wax ring */}
+              <div
                 style={{
-                  textShadow: '0 1px 1px rgba(255,255,255,0.4), 0 -1px 1px rgba(0,0,0,0.5)',
-                  transform: 'translateY(-1px)'
+                  width: '38px',
+                  height: '38px',
+                  borderRadius: '50%',
+                  border: '1px solid rgba(125, 92, 35, 0.45)',
+                  boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.15)'
                 }}
-              >
-                {recipientInitial}
-              </span>
+              />
             </div>
 
             {/* Pulsing prompt text positioned in lower envelope body */}
             <p
-              className="glow-pulse"
+              className="glow-text-pulse"
               style={{
                 position: 'absolute',
                 bottom: '24px',

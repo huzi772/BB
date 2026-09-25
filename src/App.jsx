@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import gsap from 'gsap';
+import config from './config';
 
 import EntryScreen from './components/EntryScreen';
 import Countdown from './components/Countdown';
@@ -72,6 +73,10 @@ export default function App() {
     if (typeof window !== 'undefined') {
       const searchParams = new URLSearchParams(window.location.search);
       setIsDevMode(searchParams.get('dev') === '1');
+    }
+    if (config.recipientName) {
+      const firstName = config.recipientName.split(' ')[0];
+      document.title = `A Birthday Surprise for ${firstName}`;
     }
   }, []);
 
@@ -200,7 +205,7 @@ export default function App() {
   };
 
   return (
-    <div style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden', backgroundColor: '#050509' }}>
+    <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: '100dvh', overflow: 'hidden', backgroundColor: '#050509' }}>
       {/* Active Scene Content */}
       <SceneErrorBoundary>
         {renderCurrentSceneComponent()}
@@ -227,8 +232,8 @@ export default function App() {
         <div
           style={{
             position: 'fixed',
-            bottom: '12px',
-            right: '12px',
+            bottom: 'calc(12px + env(safe-area-inset-bottom, 0px))',
+            right: 'calc(12px + env(safe-area-inset-right, 0px))',
             zIndex: 10000,
             background: 'rgba(13, 11, 20, 0.85)',
             border: '1px solid rgba(212, 175, 122, 0.4)',
