@@ -190,6 +190,7 @@ export default function MemoryGallery() {
                       width: '100%',
                       height: '100%',
                       objectFit: 'cover',
+                      objectPosition: item.objectPosition || 'center top',
                       display: 'block'
                     }}
                   />
