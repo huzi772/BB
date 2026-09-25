@@ -12,7 +12,7 @@ An interactive, client-side, cinematic single-page web app built with React, Vit
 
 ## Prerequisites & Node Version
 
-- **Node.js:** `>=18.0.0` (Required for React 19, Vite 6, and @react-three/fiber v9)
+- **Node.js:** `>=18.0.0` (Tested on Node 22)
 - **npm:** `>=9.0.0`
 
 ## Getting Started
@@ -36,26 +36,6 @@ An interactive, client-side, cinematic single-page web app built with React, Vit
    ```bash
    npm run preview
    ```
-
-## Vercel Deployment Instructions
-
-This project is fully static and ready for 1-click deployment on Vercel:
-
-1. **Push to GitHub / GitLab / Bitbucket**: Ensure your repository is pushed to your Git provider.
-2. **Import into Vercel**:
-   - Go to [Vercel Dashboard](https://vercel.com/dashboard) -> **Add New** -> **Project**.
-   - Select your repository.
-3. **Configure Project Settings**:
-   - **Framework Preset**: `Vite`
-   - **Build Command**: `npm run build`
-   - **Output Directory**: `dist`
-   - **Environment Variables**: None required.
-4. **Node.js Version Setting**:
-   - In **Project Settings** -> **General** -> **Node.js Version**, select **18.x** or **20.x** (>= 18.0.0).
-   - *Note:* Matching Node >= 18.0.0 ensures `@react-three/fiber` v9 and React 19 dependencies compile cleanly on Vercel build servers.
-5. **Deploy**: Click **Deploy**. Vercel will build and output static assets to `dist/`.
-
-> **Note on `vercel.json`**: A `vercel.json` file is intentionally omitted because this application is a single-page state-driven SPA with no client-side route rewrites. Plain Vite static hosting on Vercel serves `dist/index.html` directly.
 
 ## Editing Personal Content
 

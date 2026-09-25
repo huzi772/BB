@@ -130,7 +130,7 @@ export default function FinalScene({ goTo }) {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
+        justify: 'center',
         textAlign: 'center',
         padding: '2rem'
       }}
@@ -184,7 +184,7 @@ export default function FinalScene({ goTo }) {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center',
+          justify: 'center',
           gap: '1rem',
           zIndex: 10,
           padding: '0 1rem'

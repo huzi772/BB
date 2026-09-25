@@ -88,7 +88,7 @@ export default function GiftCenter({ onComplete }) {
     }
   };
 
-  const giftLabels = config.giftLabels || ["A Little Message", "Memories", "Something From Me"];
+  const giftLabels = config.giftLabels || ["A Little Message", "Memories", "Something From Me", "Gift for you"];
 
   const renderGiftIcon = (index) => {
     const iconStyle = {
@@ -147,22 +147,38 @@ export default function GiftCenter({ onComplete }) {
             <path d="M12 8C12 8 16 3.5 18.5 5.5C20.2 7 17 8 12 8Z" />
           </svg>
         );
+      case 3:
+        return (
+          <svg
+            style={iconStyle}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="var(--gold)"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M21 12V7H3v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5zm0 0h-4a2 2 0 0 0 0 4h4" />
+            <circle cx="16" cy="14" r="1" fill="var(--gold)" />
+            <path d="M3 7l3-3h12l3 3" />
+          </svg>
+        );
       default:
         return null;
     }
   };
 
   return (
-    <div className="scene" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 'clamp(1rem, 3vw, 2rem)', textAlign: 'center', width: '100%', height: '100%', minHeight: '100dvh', boxSizing: 'border-box' }}>
+    <div className="scene" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '1.5rem', textAlign: 'center' }}>
       {/* Header */}
       <h2
         ref={headingRef}
         className="glow-gold-text"
         style={{
           fontFamily: 'Cormorant Garamond, serif',
-          fontSize: 'clamp(1.6rem, 4.5vw, 3rem)',
+          fontSize: 'clamp(2.2rem, 5vw, 3.4rem)',
           color: 'var(--gold)',
-          marginBottom: 'clamp(0.8rem, 2vh, 1.8rem)',
+          marginBottom: '2rem',
           letterSpacing: '2px',
           fontWeight: 400,
           opacity: 0
@@ -176,12 +192,12 @@ export default function GiftCenter({ onComplete }) {
         style={{
           display: 'flex',
           flexWrap: 'wrap',
-          gap: 'clamp(0.5rem, 1.5vh, 1.2rem)',
+          gap: '1.5rem',
           justifyContent: 'center',
           alignItems: 'center',
           maxWidth: '900px',
           width: '100%',
-          marginBottom: 'clamp(0.8rem, 2vh, 2rem)'
+          marginBottom: '2.5rem'
         }}
       >
         {giftLabels.map((label, idx) => (
@@ -190,17 +206,17 @@ export default function GiftCenter({ onComplete }) {
             ref={(el) => (cardsRef.current[idx] = el)}
             onClick={() => handleOpenGift(idx)}
             style={{
-              flex: '1 1 clamp(200px, 28vw, 260px)',
+              flex: '1 1 240px',
               maxWidth: '280px',
-              minHeight: 'clamp(65px, 8.5vh, 130px)',
+              minHeight: '180px',
               background: 'var(--bg-secondary)',
               border: '1px solid rgba(212, 175, 122, 0.4)',
-              borderRadius: '12px',
-              padding: '0.5rem 0.6rem',
+              borderRadius: '16px',
+              padding: '1.5rem 1rem',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              justifyContent: 'center',
+              justify: 'center',
               cursor: 'pointer',
               boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
               transition: 'transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease, border-color 0.3s ease',
@@ -208,13 +224,13 @@ export default function GiftCenter({ onComplete }) {
             }}
             className="gift-card-hover"
           >
-            <div style={{ marginBottom: '0.2rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div style={{ marginBottom: '0.8rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               {renderGiftIcon(idx)}
             </div>
             <h3
               style={{
                 fontFamily: 'Cormorant Garamond, serif',
-                fontSize: 'clamp(1rem, 2.5vw, 1.25rem)',
+                fontSize: '1.35rem',
                 color: 'var(--ivory)',
                 margin: 0,
                 letterSpacing: '1px',
@@ -225,12 +241,12 @@ export default function GiftCenter({ onComplete }) {
             </h3>
             <span
               style={{
-                fontSize: '0.6rem',
+                fontSize: '0.75rem',
                 fontFamily: 'Manrope, sans-serif',
                 color: 'var(--gold)',
-                marginTop: '0.2rem',
+                marginTop: '0.8rem',
                 textTransform: 'uppercase',
-                letterSpacing: '1px',
+                letterSpacing: '1.5px',
                 opacity: 0.8
               }}
             >
@@ -245,7 +261,7 @@ export default function GiftCenter({ onComplete }) {
         <button
           className="btn-gold"
           onClick={handleContinue}
-          style={{ padding: '0.8rem 2rem', fontSize: '0.9rem' }}
+          style={{ padding: '0.9rem 2.2rem', fontSize: '0.95rem' }}
         >
           {config.continueButton}
         </button>
@@ -258,7 +274,7 @@ export default function GiftCenter({ onComplete }) {
             position: 'fixed',
             top: 0,
             left: 0,
-            width: '100%',
+            width: '100vw',
             height: '100dvh',
             backgroundColor: 'rgba(5, 5, 9, 0.95)',
             backdropFilter: 'blur(10px)',
@@ -266,18 +282,17 @@ export default function GiftCenter({ onComplete }) {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            justifyContent: 'center',
-            padding: 'calc(1rem + env(safe-area-inset-top, 0px)) calc(1rem + env(safe-area-inset-right, 0px)) calc(1rem + env(safe-area-inset-bottom, 0px)) calc(1rem + env(safe-area-inset-left, 0px))',
-            overflowY: 'auto',
-            boxSizing: 'border-box'
+            justify: 'center',
+            padding: '1rem',
+            overflowY: 'auto'
           }}
         >
           {/* Back Button Header */}
           <div
             style={{
               position: 'absolute',
-              top: 'calc(1rem + env(safe-area-inset-top, 0px))',
-              left: 'calc(1rem + env(safe-area-inset-left, 0px))',
+              top: '1.5rem',
+              left: '1.5rem',
               zIndex: 9100
             }}
           >
@@ -290,18 +305,17 @@ export default function GiftCenter({ onComplete }) {
             </button>
           </div>
 
-          {/* Modal Content container based on Gift Index - Centered Vertically */}
+          {/* Modal Content container based on Gift Index */}
           <div
             key={modalKey}
             style={{
               width: '100%',
               maxWidth: '800px',
-              margin: 'auto 0',
-              paddingTop: '2.5rem',
+              marginTop: '3.5rem',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              justifyContent: 'center'
+              justify: 'center'
             }}
           >
             {activeGiftIndex === 0 && (
@@ -311,9 +325,8 @@ export default function GiftCenter({ onComplete }) {
                   background: 'var(--bg-secondary)',
                   border: '1px solid var(--gold)',
                   borderRadius: '16px',
-                  padding: 'clamp(1.5rem, 5vw, 2.5rem)',
-                  maxWidth: '520px',
-                  width: '100%',
+                  padding: 'clamp(1.5rem, 5vw, 2.8rem)',
+                  maxWidth: '550px',
                   boxShadow: '0 12px 32px rgba(0,0,0,0.8), 0 0 20px rgba(212, 175, 122, 0.2)',
                   textAlign: 'center'
                 }}
@@ -353,6 +366,49 @@ export default function GiftCenter({ onComplete }) {
             {activeGiftIndex === 2 && (
               /* Gift 2: Something From Me (Letter) */
               <Letter onClose={handleCloseOverlay} />
+            )}
+
+            {activeGiftIndex === 3 && (
+              /* Gift 3: Gift for you (JazzCash Notification) */
+              <div
+                style={{
+                  background: 'var(--bg-secondary)',
+                  border: '1px solid var(--gold)',
+                  borderRadius: '16px',
+                  padding: 'clamp(1.8rem, 5vw, 2.8rem)',
+                  maxWidth: '520px',
+                  width: '90%',
+                  boxShadow: '0 12px 32px rgba(0,0,0,0.8), 0 0 25px rgba(212, 175, 122, 0.25)',
+                  textAlign: 'center'
+                }}
+              >
+                <div style={{ marginBottom: '1.2rem', display: 'flex', justifyContent: 'center' }}>
+                  {renderGiftIcon(3)}
+                </div>
+                <h3
+                  style={{
+                    fontFamily: 'Cormorant Garamond, serif',
+                    fontSize: 'clamp(1.6rem, 4vw, 2.2rem)',
+                    color: 'var(--gold)',
+                    marginBottom: '1rem',
+                    letterSpacing: '1px'
+                  }}
+                >
+                  {giftLabels[3] || "Gift for you"}
+                </h3>
+                <p
+                  style={{
+                    fontFamily: 'Cormorant Garamond, serif',
+                    fontSize: 'clamp(1.25rem, 3.5vw, 1.6rem)',
+                    color: 'var(--ivory)',
+                    lineHeight: 1.5,
+                    fontStyle: 'italic',
+                    margin: 0
+                  }}
+                >
+                  "{config.jazzCashMessage || "Check your Jazz cash Account"}"
+                </p>
+              </div>
             )}
           </div>
         </div>

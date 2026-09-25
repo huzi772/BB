@@ -59,7 +59,7 @@ export default function MemoryGallery() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
+        justify: 'center',
         width: '100%',
         maxWidth: '700px',
         margin: '0 auto',
@@ -92,13 +92,12 @@ export default function MemoryGallery() {
         style={{
           position: 'relative',
           width: '100%',
-          height: 'min(62vh, 470px)',
+          height: 'min(50vh, 380px)',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center',
+          justify: 'center',
           perspective: '1000px',
-          cursor: 'grab',
-          touchAction: 'pan-y'
+          cursor: 'grab'
         }}
       >
         {memories.map((item, idx) => {
@@ -135,8 +134,8 @@ export default function MemoryGallery() {
               onClick={() => setCurrentIndex(idx)}
               style={{
                 position: 'absolute',
-                width: 'min(72vw, 270px)',
-                height: 'min(78vh, 435px)',
+                width: 'min(82vw, 320px)',
+                height: 'min(45vh, 340px)',
                 borderRadius: '16px',
                 background: 'var(--bg-secondary)',
                 border: '1px solid rgba(212, 175, 122, 0.4)',
@@ -156,17 +155,15 @@ export default function MemoryGallery() {
               {/* Image Frame */}
               <div
                 style={{
-                  position: 'relative',
                   width: '100%',
-                  aspectRatio: '2 / 3',
+                  height: '75%',
                   borderRadius: '10px',
                   overflow: 'hidden',
                   background: '#0a0812',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center',
-                  border: '1px solid rgba(212, 175, 122, 0.2)',
-                  flexShrink: 0
+                  justify: 'center',
+                  border: '1px solid rgba(212, 175, 122, 0.2)'
                 }}
               >
                 {failedImages[idx] ? (
@@ -183,55 +180,30 @@ export default function MemoryGallery() {
                     ✦ {item.caption || `Memory #${idx + 1}`} ✦
                   </div>
                 ) : (
-                  <>
-                    {/* Blurred Background Image */}
-                    <img
-                      src={item.src}
-                      alt=""
-                      aria-hidden="true"
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        objectPosition: 'center',
-                        filter: 'blur(12px) brightness(0.65) saturate(1.2)',
-                        transform: 'scale(1.15)',
-                        pointerEvents: 'none'
-                      }}
-                    />
-                    {/* Crisp Foreground Image */}
-                    <img
-                      src={item.src}
-                      alt={item.caption || `Memory ${idx + 1}`}
-                      loading="lazy"
-                      onError={() => handleImageError(idx)}
-                      style={{
-                        position: 'relative',
-                        zIndex: 1,
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'contain',
-                        objectPosition: 'center',
-                        display: 'block'
-                      }}
-                    />
-                  </>
+                  <img
+                    src={item.src}
+                    alt={item.caption || `Memory ${idx + 1}`}
+                    loading="lazy"
+                    onError={() => handleImageError(idx)}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      display: 'block'
+                    }}
+                  />
                 )}
               </div>
 
               {/* Caption */}
               <div
                 style={{
-                  flex: 1,
+                  height: '25%',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center',
-                  padding: '6px 4px 0 4px',
-                  textAlign: 'center',
-                  overflow: 'hidden'
+                  justify: 'center',
+                  padding: '6px 8px 0 8px',
+                  textAlign: 'center'
                 }}
               >
                 <p
@@ -240,7 +212,7 @@ export default function MemoryGallery() {
                     fontSize: 'clamp(0.95rem, 2.5vw, 1.15rem)',
                     color: 'var(--ivory)',
                     fontStyle: 'italic',
-                    lineHeight: 1.25,
+                    lineHeight: 1.3,
                     margin: 0
                   }}
                 >
@@ -270,11 +242,11 @@ export default function MemoryGallery() {
             padding: '0.4rem 0.9rem',
             fontSize: '1rem',
             borderRadius: '50%',
-            minWidth: '44px',
-            minHeight: '44px',
+            minWidth: '42px',
+            minHeight: '42px',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center'
+            justify: 'center'
           }}
         >
           ‹
@@ -306,11 +278,11 @@ export default function MemoryGallery() {
             padding: '0.4rem 0.9rem',
             fontSize: '1rem',
             borderRadius: '50%',
-            minWidth: '44px',
-            minHeight: '44px',
+            minWidth: '42px',
+            minHeight: '42px',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center'
+            justify: 'center'
           }}
         >
           ›

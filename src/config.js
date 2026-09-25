@@ -5,12 +5,13 @@ export const config = {
   giftCenterHeading: "A Few Things For You",
   letterIntro: "A little something for you...",
   letterClosing: "With love,",
-  letterSignature: "Amir",
+  letterSignature: "Me",
   finalIntroLine: "One last thing...",
   finalMessage: "You deserve a beautiful year ahead.",
-  letterText: "Saba,\n\nSome people just make the world softer the moment they walk into it — you're one of them. Today isn't just another birthday, it's a reminder of how much brighter everything feels with you in it.\n\nYour smile has a way of turning ordinary moments into memories, and your heart makes everyone around you feel a little more loved. I hope this year brings you everything you quietly wish for — more laughter, more little joys, and days as beautiful as you make them for everyone else.\n\nHappy Birthday, Saba. Stay exactly as you are — just a little happier, every single day.",
-  giftLabels: ["A Little Message", "Memories", "Something From Me"],
+  letterText: "Happy Birthday!\n\nMay this year bring you endless joy, magical moments, and the fulfillment of all your dreams. Thank you for being such a wonderful presence in life.",
+  giftLabels: ["A Little Message", "Memories", "Something From Me", "Gift for you"],
   giftMessage: "Wishing you a year filled with love, laughter, and unforgettable experiences.",
+  jazzCashMessage: "Check your Jazz cash Account",
   wishText: "Make a wish...",
   blowButton: "BLOW THE CANDLES",
   birthdayTitle: "HAPPY BIRTHDAY",
@@ -21,16 +22,16 @@ export const config = {
   preparingLine2: "for someone truly special.",
   memories: [
     {
-      src: "/images/img-1.jpeg",
-      caption: "Every inch a queen, even on an ordinary day. 👑"
+      src: "/images/memory-1.jpg",
+      caption: "A special moment captured in time"
     },
     {
-      src: "/images/img-2.jpeg",
-      caption: "This is what pure princess energy looks like."
+      src: "/images/memory-2.jpg",
+      caption: "Laughter and unforgettable memories"
     },
     {
-      src: "/images/img-3.jpeg",
-      caption: "Stealing hearts without even trying."
+      src: "/images/memory-3.jpg",
+      caption: "Looking forward to many more adventures"
     }
   ],
   audio: {
