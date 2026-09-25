@@ -3,6 +3,7 @@ export const config = {
   birthdayDate: "26 September 2026",
   birthdayDateShort: "26 • 09 • 2026",
   giftCenterHeading: "A Few Things For You",
+  letterIntro: "A little something for you...",
   letterClosing: "With love,",
   letterSignature: "Me",
   finalIntroLine: "One last thing...",

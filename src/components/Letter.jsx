@@ -2,10 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import config from '../config';
 import audioManager from '../audio/audioManager';
+import ParticleField from '../effects/particles';
 
 export default function Letter({ onClose }) {
   const [isOpen, setIsOpen] = useState(false);
-  const flapRef = useRef(null);
+  const introRef = useRef(null);
+  const envelopeCardRef = useRef(null);
+  const floatAnimRef = useRef(null);
   const paperRef = useRef(null);
   const paragraphsRef = useRef([]);
 
@@ -22,61 +25,86 @@ export default function Letter({ onClose }) {
     };
   }, []);
 
+  // Closed envelope intro & floating animation
+  useEffect(() => {
+    if (isOpen) return;
+
+    const ctx = gsap.context(() => {
+      const introTl = gsap.timeline();
+
+      if (introRef.current) {
+        introTl.fromTo(
+          introRef.current,
+          { opacity: 0, y: -15 },
+          { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }
+        );
+      }
+
+      if (envelopeCardRef.current) {
+        introTl.fromTo(
+          envelopeCardRef.current,
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' },
+          '-=0.4'
+        );
+
+        // Gentle floating/breathing loop after initial reveal
+        floatAnimRef.current = gsap.to(envelopeCardRef.current, {
+          y: -8,
+          duration: 2.6,
+          yoyo: true,
+          repeat: -1,
+          ease: 'sine.inOut'
+        });
+      }
+    });
+
+    return () => {
+      ctx.revert();
+    };
+  }, [isOpen]);
+
+  // Opened paper entrance animation
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const ctx = gsap.context(() => {
+      if (paperRef.current) {
+        gsap.fromTo(
+          paperRef.current,
+          { opacity: 0, y: 25, scale: 0.95 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'back.out(1.2)' }
+        );
+      }
+
+      const validParagraphs = paragraphsRef.current.filter(Boolean);
+      if (validParagraphs.length > 0) {
+        gsap.fromTo(
+          validParagraphs,
+          { opacity: 0, y: 12 },
+          { opacity: 1, y: 0, duration: 0.5, stagger: 0.15, delay: 0.2, ease: 'power2.out' }
+        );
+      }
+    });
+
+    return () => {
+      ctx.revert();
+    };
+  }, [isOpen]);
+
   const handleOpenEnvelope = () => {
     if (isOpen) return;
+
+    if (floatAnimRef.current) {
+      floatAnimRef.current.kill();
+    }
+
     setIsOpen(true);
-
-    // Play envelope open SFX
     audioManager.playSound('envelope-open');
-
-    // Duck background music for letter reading
     audioManager.duck(0.1, 0.5);
-
-    const tl = gsap.timeline();
-
-    // 1. Animate flap open
-    if (flapRef.current) {
-      tl.to(flapRef.current, {
-        rotateX: -180,
-        duration: 0.6,
-        ease: 'power2.inOut',
-        transformOrigin: 'top center'
-      });
-    }
-
-    // 2. Slide letter paper up & expand
-    if (paperRef.current) {
-      tl.to(
-        paperRef.current,
-        {
-          y: -40,
-          opacity: 1,
-          scale: 1,
-          duration: 0.8,
-          ease: 'back.out(1.2)'
-        },
-        '-=0.2'
-      );
-    }
-
-    // 3. Stagger paragraph fade-in
-    if (paragraphsRef.current.length > 0) {
-      tl.to(
-        paragraphsRef.current.filter(Boolean),
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          stagger: 0.2,
-          ease: 'power2.out'
-        },
-        '-=0.3'
-      );
-    }
   };
 
   const handleClose = () => {
-    // Unduck music when closing
     audioManager.unduck(0.5);
     if (onCloseRef.current) {
       onCloseRef.current();
@@ -84,6 +112,7 @@ export default function Letter({ onClose }) {
   };
 
   const paragraphs = (config.letterText || '').split('\n\n').filter(Boolean);
+  const recipientInitial = config.recipientName ? config.recipientName.trim()[0].toUpperCase() : 'S';
 
   return (
     <div
@@ -96,84 +125,135 @@ export default function Letter({ onClose }) {
         maxWidth: '650px',
         margin: '0 auto',
         padding: '1rem',
-        perspective: '1000px'
+        perspective: '1000px',
+        position: 'relative'
       }}
     >
       {!isOpen ? (
-        /* CLOSED ENVELOPE */
+        /* CLOSED ENVELOPE SCREEN */
         <div
-          onClick={handleOpenEnvelope}
           style={{
             position: 'relative',
-            width: 'min(88vw, 360px)',
-            height: '240px',
-            backgroundColor: 'var(--wine)',
-            borderRadius: '12px',
-            border: '2px solid var(--gold)',
-            boxShadow: '0 12px 32px rgba(0,0,0,0.7), 0 0 20px rgba(212, 175, 122, 0.3)',
-            cursor: 'pointer',
+            width: '100%',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justify: 'center',
-            overflow: 'hidden',
-            transition: 'transform 0.3s ease, box-shadow 0.3s ease'
+            minHeight: '380px',
+            padding: '1rem 0'
           }}
-          className="envelope-hover"
         >
-          {/* Flap SVG/CSS */}
-          <div
-            ref={flapRef}
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '120px',
-              backgroundColor: '#430B1A',
-              clipPath: 'polygon(0 0, 100% 0, 50% 100%)',
-              borderBottom: '1px solid var(--gold)',
-              transformStyle: 'preserve-3d',
-              zIndex: 3
-            }}
-          />
+          {/* Subtle gold particle field ambiance */}
+          <ParticleField count={25} color="var(--gold)" speed={0.35} size={2} />
 
-          {/* Gold Wax Seal / Icon */}
+          {/* Intro Heading */}
+          <h3
+            ref={introRef}
+            style={{
+              fontFamily: 'Cormorant Garamond, serif',
+              fontStyle: 'italic',
+              fontSize: 'clamp(1.5rem, 4.5vw, 2.2rem)',
+              color: 'var(--gold)',
+              marginBottom: '1.8rem',
+              textAlign: 'center',
+              opacity: 0,
+              zIndex: 2,
+              fontWeight: 400,
+              letterSpacing: '1px'
+            }}
+          >
+            {config.letterIntro || "A little something for you..."}
+          </h3>
+
+          {/* Envelope Card */}
           <div
+            ref={envelopeCardRef}
+            onClick={handleOpenEnvelope}
             style={{
               position: 'relative',
-              zIndex: 4,
-              width: '56px',
-              height: '56px',
-              borderRadius: '50%',
-              backgroundColor: 'var(--gold)',
+              width: 'min(88vw, 380px)',
+              height: '230px',
+              backgroundColor: 'var(--wine)',
+              borderRadius: '14px',
+              border: '2px solid var(--gold)',
+              boxShadow: '0 16px 36px rgba(0,0,0,0.8), 0 0 25px rgba(212, 175, 122, 0.35)',
+              cursor: 'pointer',
               display: 'flex',
+              flexDirection: 'column',
               alignItems: 'center',
               justify: 'center',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.5)',
-              color: 'var(--wine)',
-              fontSize: '1.4rem',
-              fontWeight: 'bold',
-              marginTop: '20px'
+              overflow: 'hidden',
+              transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+              zIndex: 2,
+              opacity: 0
             }}
+            className="envelope-hover"
           >
-            ✉
-          </div>
+            {/* Flap SVG/CSS */}
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '95px',
+                backgroundColor: '#430B1A',
+                clipPath: 'polygon(0 0, 100% 0, 50% 100%)',
+                borderBottom: '1px solid var(--gold)',
+                zIndex: 3
+              }}
+            />
 
-          <p
-            style={{
-              position: 'relative',
-              zIndex: 4,
-              fontFamily: 'Cormorant Garamond, serif',
-              color: 'var(--ivory)',
-              fontSize: '1.2rem',
-              marginTop: '1rem',
-              letterSpacing: '1px',
-              textAlign: 'center'
-            }}
-          >
-            Click to Open Letter
-          </p>
+            {/* Premium Gold Wax Seal positioned at flap tip */}
+            <div
+              style={{
+                position: 'absolute',
+                top: '67px',
+                zIndex: 4,
+                width: '54px',
+                height: '54px',
+                borderRadius: '50%',
+                background: 'radial-gradient(circle at 35% 35%, #F5EBDD 0%, #D4AF7A 45%, #9A7338 90%)',
+                border: '2px solid #7D5C23',
+                boxShadow: '0 6px 16px rgba(0,0,0,0.65), inset 0 2px 4px rgba(255,255,255,0.5), inset 0 -3px 5px rgba(0,0,0,0.4), 0 0 16px rgba(212, 175, 122, 0.5)',
+                display: 'flex',
+                alignItems: 'center',
+                justify: 'center',
+                color: '#3B0A17',
+                fontSize: '1.45rem',
+                fontFamily: 'Cormorant Garamond, serif',
+                fontWeight: '700',
+                userSelect: 'none'
+              }}
+            >
+              <span
+                style={{
+                  textShadow: '0 1px 1px rgba(255,255,255,0.4), 0 -1px 1px rgba(0,0,0,0.5)',
+                  transform: 'translateY(-1px)'
+                }}
+              >
+                {recipientInitial}
+              </span>
+            </div>
+
+            {/* Pulsing prompt text positioned in lower envelope body */}
+            <p
+              className="glow-pulse"
+              style={{
+                position: 'absolute',
+                bottom: '24px',
+                zIndex: 4,
+                fontFamily: 'Cormorant Garamond, serif',
+                color: 'var(--ivory)',
+                fontSize: '1.25rem',
+                letterSpacing: '1.5px',
+                textAlign: 'center',
+                margin: 0
+              }}
+            >
+              Click to Open Letter
+            </p>
+          </div>
         </div>
       ) : (
         /* OPENED LETTER PAPER */
@@ -188,8 +268,7 @@ export default function Letter({ onClose }) {
             padding: 'clamp(1.5rem, 5vw, 2.5rem)',
             boxShadow: '0 16px 40px rgba(0,0,0,0.8), 0 0 25px rgba(212, 175, 122, 0.4)',
             border: '2px solid var(--gold)',
-            opacity: 0,
-            transform: 'scale(0.95) translateY(20px)'
+            zIndex: 2
           }}
         >
           {/* Letter Header */}
@@ -222,8 +301,6 @@ export default function Letter({ onClose }) {
                 ref={(el) => (paragraphsRef.current[idx] = el)}
                 style={{
                   margin: '0 0 1.2rem 0',
-                  opacity: 0,
-                  transform: 'translateY(12px)',
                   color: '#2a2238'
                 }}
               >
@@ -236,9 +313,7 @@ export default function Letter({ onClose }) {
               ref={(el) => (paragraphsRef.current[paragraphs.length] = el)}
               style={{
                 marginTop: '2rem',
-                textAlign: 'right',
-                opacity: 0,
-                transform: 'translateY(12px)'
+                textAlign: 'right'
               }}
             >
               <p style={{ margin: 0, fontStyle: 'italic', color: 'var(--wine)' }}>
