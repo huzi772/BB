@@ -97,7 +97,8 @@ export default function MemoryGallery() {
           alignItems: 'center',
           justify: 'center',
           perspective: '1000px',
-          cursor: 'grab'
+          cursor: 'grab',
+          touchAction: 'pan-y'
         }}
       >
         {memories.map((item, idx) => {
@@ -242,8 +243,8 @@ export default function MemoryGallery() {
             padding: '0.4rem 0.9rem',
             fontSize: '1rem',
             borderRadius: '50%',
-            minWidth: '42px',
-            minHeight: '42px',
+            minWidth: '44px',
+            minHeight: '44px',
             display: 'flex',
             alignItems: 'center',
             justify: 'center'
@@ -278,8 +279,8 @@ export default function MemoryGallery() {
             padding: '0.4rem 0.9rem',
             fontSize: '1rem',
             borderRadius: '50%',
-            minWidth: '42px',
-            minHeight: '42px',
+            minWidth: '44px',
+            minHeight: '44px',
             display: 'flex',
             alignItems: 'center',
             justify: 'center'
