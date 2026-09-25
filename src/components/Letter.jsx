@@ -119,7 +119,7 @@ export default function Letter({ onClose }) {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justify: 'center',
+        justifyContent: 'center',
         width: '100%',
         maxWidth: '650px',
         margin: '0 auto',
@@ -137,7 +137,7 @@ export default function Letter({ onClose }) {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            justify: 'center',
+            justifyContent: 'center',
             minHeight: '380px',
             padding: '1rem 0'
           }}
@@ -180,7 +180,7 @@ export default function Letter({ onClose }) {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              justify: 'center',
+              justifyContent: 'center',
               overflow: 'hidden',
               transition: 'transform 0.3s ease, box-shadow 0.3s ease',
               zIndex: 2,
@@ -217,7 +217,7 @@ export default function Letter({ onClose }) {
                 boxShadow: '0 6px 16px rgba(0,0,0,0.65), inset 0 1px 2px rgba(255,255,255,0.2), inset 0 -2px 4px rgba(0,0,0,0.25), 0 0 16px rgba(212, 175, 122, 0.5)',
                 display: 'flex',
                 alignItems: 'center',
-                justify: 'center',
+                justifyContent: 'center',
                 userSelect: 'none'
               }}
             >

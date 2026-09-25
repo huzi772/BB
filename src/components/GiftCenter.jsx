@@ -177,7 +177,7 @@ export default function GiftCenter({ onComplete }) {
           display: 'flex',
           flexWrap: 'wrap',
           gap: 'clamp(0.5rem, 1.5vh, 1.2rem)',
-          justify: 'center',
+          justifyContent: 'center',
           alignItems: 'center',
           maxWidth: '900px',
           width: '100%',
@@ -200,7 +200,7 @@ export default function GiftCenter({ onComplete }) {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              justify: 'center',
+              justifyContent: 'center',
               cursor: 'pointer',
               boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
               transition: 'transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease, border-color 0.3s ease',
@@ -266,7 +266,7 @@ export default function GiftCenter({ onComplete }) {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            justify: 'center',
+            justifyContent: 'center',
             padding: 'calc(1rem + env(safe-area-inset-top, 0px)) calc(1rem + env(safe-area-inset-right, 0px)) calc(1rem + env(safe-area-inset-bottom, 0px)) calc(1rem + env(safe-area-inset-left, 0px))',
             overflowY: 'auto',
             boxSizing: 'border-box'
@@ -301,7 +301,7 @@ export default function GiftCenter({ onComplete }) {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              justify: 'center'
+              justifyContent: 'center'
             }}
           >
             {activeGiftIndex === 0 && (

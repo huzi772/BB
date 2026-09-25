@@ -59,7 +59,7 @@ export default function MemoryGallery() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justify: 'center',
+        justifyContent: 'center',
         width: '100%',
         maxWidth: '700px',
         margin: '0 auto',
@@ -95,7 +95,7 @@ export default function MemoryGallery() {
           height: 'min(50vh, 380px)',
           display: 'flex',
           alignItems: 'center',
-          justify: 'center',
+          justifyContent: 'center',
           perspective: '1000px',
           cursor: 'grab',
           touchAction: 'pan-y'
@@ -163,7 +163,7 @@ export default function MemoryGallery() {
                   background: '#0a0812',
                   display: 'flex',
                   alignItems: 'center',
-                  justify: 'center',
+                  justifyContent: 'center',
                   border: '1px solid rgba(212, 175, 122, 0.2)'
                 }}
               >
@@ -202,7 +202,7 @@ export default function MemoryGallery() {
                   height: '25%',
                   display: 'flex',
                   alignItems: 'center',
-                  justify: 'center',
+                  justifyContent: 'center',
                   padding: '6px 8px 0 8px',
                   textAlign: 'center'
                 }}
@@ -247,7 +247,7 @@ export default function MemoryGallery() {
             minHeight: '44px',
             display: 'flex',
             alignItems: 'center',
-            justify: 'center'
+            justifyContent: 'center'
           }}
         >
           ‹
@@ -283,7 +283,7 @@ export default function MemoryGallery() {
             minHeight: '44px',
             display: 'flex',
             alignItems: 'center',
-            justify: 'center'
+            justifyContent: 'center'
           }}
         >
           ›
