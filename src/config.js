@@ -21,16 +21,16 @@ export const config = {
   preparingLine2: "for someone truly special.",
   memories: [
     {
-      src: "/images/memory-1.jpg",
-      caption: "A special moment captured in time"
+      src: "/images/img-1.jpeg",
+      caption: "Every inch a queen, even on an ordinary day. 👑"
     },
     {
-      src: "/images/memory-2.jpg",
-      caption: "Laughter and unforgettable memories"
+      src: "/images/img-2.jpeg",
+      caption: "This is what pure princess energy looks like."
     },
     {
-      src: "/images/memory-3.jpg",
-      caption: "Looking forward to many more adventures"
+      src: "/images/img-3.jpeg",
+      caption: "Stealing hearts without even trying."
     }
   ],
   audio: {
