@@ -275,8 +275,8 @@ export default function GiftCenter({ onComplete }) {
           <div
             style={{
               position: 'absolute',
-              top: '1.5rem',
-              left: '1.5rem',
+              top: 'calc(1.5rem + env(safe-area-inset-top, 0px))',
+              left: 'calc(1.5rem + env(safe-area-inset-left, 0px))',
               zIndex: 9100
             }}
           >

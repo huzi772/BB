@@ -2,17 +2,26 @@
    Midnight Champagne Design System - Responsive Breakpoints
    ========================================================================== */
 
+/* Safe Area Variables */
+:root {
+  --sat: env(safe-area-inset-top, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+}
+
 /* Mobile Breakpoint (< 600px) */
 @media (max-width: 599.98px) {
   .scene {
-    padding: var(--space-3);
+    padding: calc(var(--space-3) + var(--sat)) calc(var(--space-3) + var(--sar)) calc(var(--space-3) + var(--sab)) calc(var(--space-3) + var(--sal));
   }
 
   .btn-gold {
     width: 100%;
     max-width: 320px;
+    min-height: 48px;
     padding: var(--space-2) var(--space-3);
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     letter-spacing: 0.12em;
   }
 }
@@ -20,7 +29,7 @@
 /* Tablet Breakpoint (600px to 1024px) */
 @media (min-width: 600px) and (max-width: 1024px) {
   .scene {
-    padding: var(--space-5);
+    padding: calc(var(--space-5) + var(--sat)) calc(var(--space-5) + var(--sar)) calc(var(--space-5) + var(--sab)) calc(var(--space-5) + var(--sal));
   }
 }
 
@@ -28,5 +37,30 @@
 @media (min-width: 1024.02px) {
   .scene {
     padding: var(--space-6);
+  }
+}
+
+/* Short Landscape Phone Viewports (e.g. 812x375, height <= 500px) */
+@media (max-height: 500px) and (orientation: landscape) {
+  .scene {
+    padding: calc(0.5rem + var(--sat)) calc(1rem + var(--sar)) calc(0.5rem + var(--sab)) calc(1rem + var(--sal));
+    justify-content: center;
+  }
+
+  h1, .heading-xl {
+    font-size: clamp(1.6rem, 4vw + 0.5rem, 2.8rem);
+  }
+
+  h2, .heading-lg {
+    font-size: clamp(1.4rem, 3.5vw + 0.5rem, 2.2rem);
+  }
+
+  h3, .heading-md {
+    font-size: clamp(1.2rem, 2.5vw + 0.4rem, 1.8rem);
+  }
+
+  .btn-gold {
+    min-height: 44px;
+    padding: 0.4rem 1.2rem;
   }
 }
