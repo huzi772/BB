@@ -9,7 +9,7 @@ export const config = {
   finalIntroLine: "One last thing...",
   finalMessage: "You deserve a beautiful year ahead.",
   letterText: "Saba,\n\nSome people just make the world softer the moment they walk into it — you're one of them. Today isn't just another birthday, it's a reminder of how much brighter everything feels with you in it.\n\nYour smile has a way of turning ordinary moments into memories, and your heart makes everyone around you feel a little more loved. I hope this year brings you everything you quietly wish for — more laughter, more little joys, and days as beautiful as you make them for everyone else.\n\nHappy Birthday, Saba. Stay exactly as you are — just a little happier, every single day.",
-  giftLabels: ["A Little Message", "Memories", "Something From Me"],
+  giftLabels: ["A Little Message", "Memories", "Something From Me", "Gift For You"],
   giftMessage: "Wishing you a year filled with love, laughter, and unforgettable experiences.",
   wishText: "Make a wish...",
   blowButton: "BLOW THE CANDLES",

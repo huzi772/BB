@@ -147,6 +147,21 @@ export default function GiftCenter({ onComplete }) {
             <path d="M12 8C12 8 16 3.5 18.5 5.5C20.2 7 17 8 12 8Z" />
           </svg>
         );
+      case 3:
+        return (
+          <svg
+            style={iconStyle}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="var(--gold)"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <rect x="2" y="5" width="20" height="14" rx="2" />
+            <line x1="2" y1="10" x2="22" y2="10" />
+          </svg>
+        );
       default:
         return null;
     }
@@ -353,6 +368,47 @@ export default function GiftCenter({ onComplete }) {
             {activeGiftIndex === 2 && (
               /* Gift 2: Something From Me (Letter) */
               <Letter onClose={handleCloseOverlay} />
+            )}
+
+            {activeGiftIndex === 3 && (
+              /* Gift 3: Gift For You */
+              <div
+                style={{
+                  background: 'var(--bg-secondary)',
+                  border: '1px solid var(--gold)',
+                  borderRadius: '16px',
+                  padding: 'clamp(1.5rem, 5vw, 2.5rem)',
+                  maxWidth: '520px',
+                  width: '100%',
+                  boxShadow: '0 12px 32px rgba(0,0,0,0.8), 0 0 20px rgba(212, 175, 122, 0.2)',
+                  textAlign: 'center'
+                }}
+              >
+                <div style={{ marginBottom: '1rem', display: 'flex', justifyContent: 'center' }}>
+                  {renderGiftIcon(3)}
+                </div>
+                <h3
+                  style={{
+                    fontFamily: 'Cormorant Garamond, serif',
+                    fontSize: 'clamp(1.6rem, 4vw, 2.2rem)',
+                    color: 'var(--gold)',
+                    marginBottom: '1rem'
+                  }}
+                >
+                  {giftLabels[3]}
+                </h3>
+                <p
+                  style={{
+                    fontFamily: 'Cormorant Garamond, serif',
+                    fontSize: 'clamp(1.1rem, 3vw, 1.35rem)',
+                    color: 'var(--ivory)',
+                    lineHeight: 1.6,
+                    fontStyle: 'italic'
+                  }}
+                >
+                  "Check Your JazzCash Account"
+                </p>
+              </div>
             )}
           </div>
         </div>
