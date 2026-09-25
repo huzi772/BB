@@ -404,6 +404,18 @@ function CameraController({ onIntroComplete }) {
   return null;
 }
 
+function CanvasDisposer() {
+  const { gl } = useThree();
+  useEffect(() => {
+    return () => {
+      // Force cleanup of WebGL context and render loop when CakeScene unmounts
+      gl.dispose();
+      gl.forceContextLoss();
+    };
+  }, [gl]);
+  return null;
+}
+
 function ThreeCakeCanvas({ isBlowing, onIntroComplete }) {
   const pointLightRef = useRef();
   const isMobile = window.innerWidth < 600;
@@ -415,11 +427,12 @@ function ThreeCakeCanvas({ isBlowing, onIntroComplete }) {
 
   return (
     <Canvas
-      dpr={[1, 1.5]}
+      dpr={[1, isMobile ? 1.25 : 1.5]}
       gl={{ antialias: !isMobile, powerPreference: 'high-performance' }}
       camera={{ position: [0, 0.5, 7], fov: 45 }}
       style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
     >
+      <CanvasDisposer />
       <CameraController onIntroComplete={onIntroComplete} />
 
       {/* Lighting Setup */}

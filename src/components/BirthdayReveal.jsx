@@ -34,14 +34,14 @@ export default function BirthdayReveal({ onComplete }) {
         audioManager.playSound('fireworks');
       });
 
-      // b) config.birthdayTitle fades in with letter-spacing expansion
+      // b) config.birthdayTitle fades in smoothly with GPU hardware acceleration
       tl.fromTo(
         titleRef.current,
-        { opacity: 0, y: 30, letterSpacing: '2px' },
+        { opacity: 0, y: 25, scale: 0.94 },
         {
           opacity: 1,
           y: 0,
-          letterSpacing: '8px',
+          scale: 1,
           duration: 1.4,
           ease: 'power3.out'
         }
@@ -50,21 +50,21 @@ export default function BirthdayReveal({ onComplete }) {
       // c) config.recipientName appears glowing gold with soft reveal
       tl.fromTo(
         nameRef.current,
-        { opacity: 0, scale: 0.85, filter: 'blur(12px)' },
+        { opacity: 0, scale: 0.88, filter: 'blur(10px)' },
         {
           opacity: 1,
           scale: 1,
           filter: 'blur(0px)',
-          duration: 1.6,
+          duration: 1.5,
           ease: 'power2.out'
         },
-        '-=0.6'
+        '-=0.7'
       );
 
       // d) config.birthdayDate appears below
       tl.fromTo(
         dateRef.current,
-        { opacity: 0, y: 20 },
+        { opacity: 0, y: 15 },
         {
           opacity: 1,
           y: 0,
@@ -126,9 +126,11 @@ export default function BirthdayReveal({ onComplete }) {
             fontWeight: 600,
             color: 'var(--ivory)',
             textTransform: 'uppercase',
+            letterSpacing: '6px',
             marginBottom: 'var(--space-3)',
             textShadow: '0 4px 20px rgba(0,0,0,0.9), 0 0 15px rgba(212,175,122,0.4)',
-            wordBreak: 'break-word'
+            wordBreak: 'break-word',
+            willChange: 'transform, opacity'
           }}
         >
           {config.birthdayTitle}
@@ -145,7 +147,8 @@ export default function BirthdayReveal({ onComplete }) {
             lineHeight: 1.1,
             marginBottom: 'var(--space-4)',
             textShadow: '0 4px 30px rgba(0,0,0,0.9), 0 0 25px rgba(212,175,122,0.6)',
-            wordBreak: 'break-word'
+            wordBreak: 'break-word',
+            willChange: 'transform, opacity, filter'
           }}
         >
           {config.recipientName}
@@ -160,7 +163,8 @@ export default function BirthdayReveal({ onComplete }) {
             color: 'var(--ivory)',
             opacity: 0.9,
             marginBottom: 'var(--space-8)',
-            textShadow: '0 2px 10px rgba(0,0,0,0.8)'
+            textShadow: '0 2px 10px rgba(0,0,0,0.8)',
+            willChange: 'transform, opacity'
           }}
         >
           {config.birthdayDate}
