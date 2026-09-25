@@ -90,7 +90,67 @@ export default function GiftCenter({ onComplete }) {
 
   const giftLabels = config.giftLabels || ["A Little Message", "Memories", "Something From Me"];
 
-  const giftIcons = ["💌", "🖼️", "🎁"];
+  const renderGiftIcon = (index) => {
+    const iconStyle = {
+      width: '40px',
+      height: '40px',
+      filter: 'drop-shadow(0 0 6px rgba(212, 175, 122, 0.4))'
+    };
+
+    switch (index) {
+      case 0:
+        return (
+          <svg
+            style={iconStyle}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="var(--gold)"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <rect x="2" y="4" width="20" height="16" rx="2" />
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+          </svg>
+        );
+      case 1:
+        return (
+          <svg
+            style={iconStyle}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="var(--gold)"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <rect x="3" y="3" width="18" height="18" rx="2" />
+            <circle cx="8.5" cy="8.5" r="1.5" />
+            <path d="m21 15-5-5L5 21" />
+          </svg>
+        );
+      case 2:
+        return (
+          <svg
+            style={iconStyle}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="var(--gold)"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <rect x="3" y="8" width="18" height="13" rx="1" />
+            <path d="M12 8v13" />
+            <path d="M3 12h18" />
+            <path d="M12 8C12 8 8 3.5 5.5 5.5C3.8 7 7 8 12 8Z" />
+            <path d="M12 8C12 8 16 3.5 18.5 5.5C20.2 7 17 8 12 8Z" />
+          </svg>
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="scene" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '1.5rem', textAlign: 'center' }}>
@@ -148,8 +208,8 @@ export default function GiftCenter({ onComplete }) {
             }}
             className="gift-card-hover"
           >
-            <div style={{ fontSize: '2.8rem', marginBottom: '0.8rem', filter: 'drop-shadow(0 2px 8px rgba(212, 175, 122, 0.3))' }}>
-              {giftIcons[idx] || "🎁"}
+            <div style={{ marginBottom: '0.8rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              {renderGiftIcon(idx)}
             </div>
             <h3
               style={{
@@ -255,7 +315,9 @@ export default function GiftCenter({ onComplete }) {
                   textAlign: 'center'
                 }}
               >
-                <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>💌</div>
+              <div style={{ marginBottom: '1rem', display: 'flex', justifyContent: 'center' }}>
+                {renderGiftIcon(0)}
+              </div>
                 <h3
                   style={{
                     fontFamily: 'Cormorant Garamond, serif',
