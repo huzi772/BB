@@ -110,7 +110,7 @@ function easeInOutCubic(x) {
   return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
 }
 
-function createRoundedCylinderGeometry(radius, height, bevelRadius, segments = 64) {
+function createRoundedCylinderGeometry(radius, height, bevelRadius, segments = 44) {
   const path = new THREE.Path();
   const r = Math.min(bevelRadius, radius, height / 2);
 
@@ -121,13 +121,13 @@ function createRoundedCylinderGeometry(radius, height, bevelRadius, segments = 6
   path.absarc(radius - r, height - r, r, 0, Math.PI / 2, false);
   path.lineTo(0, height);
 
-  const points = path.getPoints(16);
+  const points = path.getPoints(12);
   const geometry = new THREE.LatheGeometry(points, segments);
   geometry.computeVertexNormals();
   return geometry;
 }
 
-function createCreamTopGeometry(radius, thickness, segments = 64) {
+function createCreamTopGeometry(radius, thickness, segments = 44) {
   const path = new THREE.Path();
   const crownExtra = 0.035;
   const overhangR = radius + 0.028;
@@ -140,13 +140,13 @@ function createCreamTopGeometry(radius, thickness, segments = 64) {
   path.quadraticCurveTo(radius - 0.05, thickness + 0.025, radius - 0.2, thickness + crownExtra * 0.8);
   path.quadraticCurveTo(radius * 0.4, thickness + crownExtra, 0, thickness + crownExtra);
 
-  const points = path.getPoints(24);
+  const points = path.getPoints(16);
   const geometry = new THREE.LatheGeometry(points, segments);
   geometry.computeVertexNormals();
   return geometry;
 }
 
-function createCreamRosetteGeometry(size = 0.045, segments = 24) {
+function createCreamRosetteGeometry(size = 0.045, segments = 16) {
   const path = new THREE.Path();
 
   path.moveTo(0, 0);
@@ -154,25 +154,25 @@ function createCreamRosetteGeometry(size = 0.045, segments = 24) {
   path.quadraticCurveTo(size * 0.95, size * 0.35, size * 0.65, size * 0.65);
   path.quadraticCurveTo(size * 0.75, size * 0.9, 0, size * 1.15);
 
-  const points = path.getPoints(16);
+  const points = path.getPoints(12);
   const geometry = new THREE.LatheGeometry(points, segments);
   geometry.computeVertexNormals();
   return geometry;
 }
 
-function createFlameGeometry(radius = 0.025, height = 0.09, segments = 24) {
+function createFlameGeometry(radius = 0.025, height = 0.09, segments = 16) {
   const path = new THREE.Path();
   path.moveTo(0, 0);
   path.quadraticCurveTo(radius * 1.2, height * 0.25, radius, height * 0.45);
   path.quadraticCurveTo(radius * 0.5, height * 0.8, 0, height);
 
-  const points = path.getPoints(16);
+  const points = path.getPoints(12);
   const geo = new THREE.LatheGeometry(points, segments);
   geo.computeVertexNormals();
   return geo;
 }
 
-function createWaxGeometry(waxRadius = 0.035, waxHeight = 0.32, segments = 24) {
+function createWaxGeometry(waxRadius = 0.035, waxHeight = 0.32, segments = 16) {
   const path = new THREE.Path();
   const r = 0.005;
   path.moveTo(0, 0);
@@ -182,7 +182,7 @@ function createWaxGeometry(waxRadius = 0.035, waxHeight = 0.32, segments = 24) {
   path.absarc(waxRadius - r, waxHeight - r, r, 0, Math.PI / 2, false);
   path.lineTo(0, waxHeight);
 
-  const points = path.getPoints(12);
+  const points = path.getPoints(10);
   const waxGeo = new THREE.LatheGeometry(points, segments);
   waxGeo.computeVertexNormals();
   return waxGeo;
@@ -212,7 +212,7 @@ function GoldPearls({ count = 36 }) {
 
   return (
     <instancedMesh ref={meshRef} args={[null, null, count]}>
-      <sphereGeometry args={[1, 12, 12]} />
+      <sphereGeometry args={[1, 10, 10]} />
       <meshStandardMaterial color="#D4AF7A" metalness={0.85} roughness={0.25} />
     </instancedMesh>
   );
@@ -221,7 +221,7 @@ function GoldPearls({ count = 36 }) {
 function CreamRosettes({ radius, yPos, count, size, material, isMobile }) {
   const meshRef = useRef();
   const adjustedCount = isMobile ? Math.round(count * 0.6) : count;
-  const geometry = useMemo(() => createCreamRosetteGeometry(size, isMobile ? 16 : 24), [size, isMobile]);
+  const geometry = useMemo(() => createCreamRosetteGeometry(size, isMobile ? 12 : 16), [size, isMobile]);
 
   useLayoutEffect(() => {
     if (!meshRef.current) return;
@@ -241,12 +241,12 @@ function CreamRosettes({ radius, yPos, count, size, material, isMobile }) {
   }, [radius, yPos, adjustedCount]);
 
   return (
-    <instancedMesh ref={meshRef} args={[geometry, material, adjustedCount]} castShadow receiveShadow />
+    <instancedMesh ref={meshRef} args={[geometry, material, adjustedCount]} />
   );
 }
 
 function ChocolateCurls({ radius, yPos, count = 4, material }) {
-  const geometry = useMemo(() => new THREE.TorusGeometry(0.065, 0.012, 12, 24, Math.PI * 1.3), []);
+  const geometry = useMemo(() => new THREE.TorusGeometry(0.065, 0.012, 10, 18, Math.PI * 1.3), []);
 
   const curls = useMemo(() => {
     const items = [];
@@ -265,7 +265,7 @@ function ChocolateCurls({ radius, yPos, count = 4, material }) {
   return (
     <group>
       {curls.map((curl, i) => (
-        <mesh key={i} geometry={geometry} material={material} position={curl.position} rotation={curl.rotation} castShadow receiveShadow />
+        <mesh key={i} geometry={geometry} material={material} position={curl.position} rotation={curl.rotation} />
       ))}
     </group>
   );
@@ -325,9 +325,9 @@ function ProceduralCake({ isBlowing, pointLightRef, isMobile }) {
   // Bump map texture for baked cake sponge texture
   const cakeBumpMap = useMemo(() => createCakeBumpTexture(), []);
 
-  // Shared Materials
+  // Shared Materials (Optimized: No sheen, clearcoat strictly limited to main cream tops)
   const cakeMaterial = useMemo(() => new THREE.MeshStandardMaterial({
-    color: 0x5C0F24, // Preserved deep wine color
+    color: 0x5C0F24,
     roughness: 0.88,
     metalness: 0.0,
     bumpMap: cakeBumpMap,
@@ -338,18 +338,20 @@ function ProceduralCake({ isBlowing, pointLightRef, isMobile }) {
     color: 0xfffbf5,
     roughness: 0.38,
     metalness: 0.0,
-    clearcoat: 0.15,
+    clearcoat: 0.12,
     clearcoatRoughness: 0.25,
-    sheen: 0.3,
-    sheenColor: 0xfff0e0,
   }), []);
 
-  const chocolateMaterial = useMemo(() => new THREE.MeshPhysicalMaterial({
+  const rosetteMaterial = useMemo(() => new THREE.MeshStandardMaterial({
+    color: 0xfffbf5,
+    roughness: 0.4,
+    metalness: 0.0,
+  }), []);
+
+  const chocolateMaterial = useMemo(() => new THREE.MeshStandardMaterial({
     color: 0x3d2314,
-    roughness: 0.22,
-    metalness: 0.02,
-    clearcoat: 0.3,
-    clearcoatRoughness: 0.15,
+    roughness: 0.25,
+    metalness: 0.0,
   }), []);
 
   const goldBandMaterial = useMemo(() => new THREE.MeshStandardMaterial({
@@ -358,14 +360,10 @@ function ProceduralCake({ isBlowing, pointLightRef, isMobile }) {
     roughness: 0.3,
   }), []);
 
-  const waxMaterial = useMemo(() => new THREE.MeshPhysicalMaterial({
+  const waxMaterial = useMemo(() => new THREE.MeshStandardMaterial({
     color: 0xfffcf5,
-    roughness: 0.28,
+    roughness: 0.3,
     metalness: 0.0,
-    clearcoat: 0.08,
-    clearcoatRoughness: 0.2,
-    sheen: 0.2,
-    sheenColor: 0xfff5e6,
   }), []);
 
   const wickMaterial = useMemo(() => new THREE.MeshStandardMaterial({
@@ -399,8 +397,8 @@ function ProceduralCake({ isBlowing, pointLightRef, isMobile }) {
     depthWrite: false,
   }), []);
 
-  // Geometries
-  const segments = isMobile ? 36 : 64;
+  // Geometries (Optimized Lathe segment counts: 44 desktop / 24 mobile)
+  const segments = isMobile ? 24 : 44;
   const tier1CakeGeo = useMemo(() => createRoundedCylinderGeometry(1.3, 0.8, 0.08, segments), [segments]);
   const tier2CakeGeo = useMemo(() => createRoundedCylinderGeometry(0.95, 0.6, 0.07, segments), [segments]);
   const tier3CakeGeo = useMemo(() => createRoundedCylinderGeometry(0.6, 0.6, 0.06, segments), [segments]);
@@ -409,12 +407,12 @@ function ProceduralCake({ isBlowing, pointLightRef, isMobile }) {
   const tier2CreamGeo = useMemo(() => createCreamTopGeometry(0.95, 0.07, segments), [segments]);
   const tier3CreamGeo = useMemo(() => createCreamTopGeometry(0.6, 0.06, segments), [segments]);
 
-  const waxGeo = useMemo(() => createWaxGeometry(0.035, 0.32, 24), []);
-  const wickGeo = useMemo(() => new THREE.CylinderGeometry(0.005, 0.005, 0.04, 8), []);
+  const waxGeo = useMemo(() => createWaxGeometry(0.035, 0.32, isMobile ? 12 : 16), [isMobile]);
+  const wickGeo = useMemo(() => new THREE.CylinderGeometry(0.005, 0.005, 0.04, 6), []);
 
-  const outerFlameGeo = useMemo(() => createFlameGeometry(0.024, 0.085, 24), []);
-  const innerFlameGeo = useMemo(() => createFlameGeometry(0.013, 0.052, 24), []);
-  const glowFlameGeo = useMemo(() => createFlameGeometry(0.042, 0.11, 24), []);
+  const outerFlameGeo = useMemo(() => createFlameGeometry(0.024, 0.085, 16), []);
+  const innerFlameGeo = useMemo(() => createFlameGeometry(0.013, 0.052, 16), []);
+  const glowFlameGeo = useMemo(() => createFlameGeometry(0.042, 0.11, 16), []);
 
   // Keep 1 center + 4 around layout for candles
   const candlePositions = useMemo(() => [
@@ -428,7 +426,7 @@ function ProceduralCake({ isBlowing, pointLightRef, isMobile }) {
   // Handle blow state change
   useEffect(() => {
     if (isBlowing) {
-      blowStartTimeRef.current = -1; // reset so useFrame sets it on first blow frame
+      blowStartTimeRef.current = -1;
     } else {
       blowStartTimeRef.current = -1;
     }
@@ -446,7 +444,9 @@ function ProceduralCake({ isBlowing, pointLightRef, isMobile }) {
       blowStartTimeRef.current = time;
     }
 
-    let allExtinguished = true;
+    let activeFlamesCount = 0;
+    let avgNoise1 = 0;
+    let avgNoise2 = 0;
 
     flameDataListRef.current.forEach((flame) => {
       if (!flame || !flame.group) return;
@@ -454,7 +454,6 @@ function ProceduralCake({ isBlowing, pointLightRef, isMobile }) {
       const idx = flame.index;
       const t = time * 7.5 + flame.offset;
 
-      // Multi-sine wave organic noise
       const noise1 = Math.sin(t) * 0.07;
       const noise2 = Math.cos(t * 1.7) * 0.04;
       const noise3 = Math.sin(t * 2.9) * 0.02;
@@ -462,8 +461,8 @@ function ProceduralCake({ isBlowing, pointLightRef, isMobile }) {
       let extinguishProgress = 0;
 
       if (isBlowing && blowStartTimeRef.current >= 0) {
-        const extinguishDelay = idx * 0.12; // 0.12s stagger per candle
-        const extinguishDuration = 1.4; // 1.4s smooth fade
+        const extinguishDelay = idx * 0.12;
+        const extinguishDuration = 1.4;
         const extinguishElapsed = time - blowStartTimeRef.current - extinguishDelay;
 
         if (extinguishElapsed > 0) {
@@ -476,9 +475,10 @@ function ProceduralCake({ isBlowing, pointLightRef, isMobile }) {
 
       if (flameFactor <= 0.001) {
         flame.group.visible = false;
-        if (flame.lightRef.current) flame.lightRef.current.intensity = 0;
       } else {
-        allExtinguished = false;
+        activeFlamesCount++;
+        avgNoise1 += noise1;
+        avgNoise2 += noise2;
         flame.group.visible = true;
 
         const scaleY = (1 + noise1 + noise2) * flameFactor;
@@ -488,28 +488,33 @@ function ProceduralCake({ isBlowing, pointLightRef, isMobile }) {
         flame.group.rotation.z = Math.sin(t * 0.8) * 0.05;
         flame.group.rotation.x = Math.cos(t * 0.6) * 0.04;
 
-        // Glow mesh scaling and opacity
         if (flame.glowRef.current && flame.glowMatRef.current) {
           flame.glowRef.current.scale.set(flameFactor, flameFactor, flameFactor);
           flame.glowMatRef.current.opacity = 0.22 * flameFactor;
         }
-
-        // Per-flame point light wobble & fade
-        if (flame.lightRef.current) {
-          const baseLight = 0.5;
-          const flickerAmp = 0.2;
-          flame.lightRef.current.intensity = (baseLight + (noise1 + noise2) * flickerAmp) * flameFactor;
-        }
       }
     });
 
-    // Dim central shared point light when blowing if present
-    if (pointLightRef && pointLightRef.current && isBlowing) {
-      pointLightRef.current.intensity = THREE.MathUtils.lerp(
-        pointLightRef.current.intensity,
-        0,
-        delta * 2
-      );
+    // Single shared candle point light flicker & dim on blow
+    if (pointLightRef && pointLightRef.current) {
+      if (activeFlamesCount > 0) {
+        const factor = activeFlamesCount / 5;
+        const noise = (avgNoise1 + avgNoise2) / activeFlamesCount;
+        const baseIntensity = 2.2 * factor;
+        const flicker = noise * 0.8;
+
+        if (isBlowing) {
+          pointLightRef.current.intensity = THREE.MathUtils.lerp(
+            pointLightRef.current.intensity,
+            0,
+            delta * 2.5
+          );
+        } else {
+          pointLightRef.current.intensity = Math.max(0, baseIntensity + flicker);
+        }
+      } else {
+        pointLightRef.current.intensity = 0;
+      }
     }
   });
 
@@ -517,49 +522,49 @@ function ProceduralCake({ isBlowing, pointLightRef, isMobile }) {
     <group ref={groupRef} position={[0, -0.6, 0]}>
       {/* Stand Plate */}
       <mesh position={[0, -0.05, 0]}>
-        <cylinderGeometry args={[1.7, 1.2, 0.1, 32]} />
+        <cylinderGeometry args={[1.7, 1.2, 0.1, 28]} />
         <meshStandardMaterial color="#D4AF7A" metalness={0.85} roughness={0.25} />
       </mesh>
       <mesh position={[0, -0.4, 0]}>
-        <cylinderGeometry args={[0.4, 0.8, 0.6, 24]} />
+        <cylinderGeometry args={[0.4, 0.8, 0.6, 20]} />
         <meshStandardMaterial color="#D4AF7A" metalness={0.85} roughness={0.25} />
       </mesh>
 
       {/* --- Tier 1 (Bottom) --- */}
       {/* Cake Tier Body */}
-      <mesh geometry={tier1CakeGeo} material={cakeMaterial} position={[0, 0, 0]} castShadow receiveShadow />
+      <mesh geometry={tier1CakeGeo} material={cakeMaterial} position={[0, 0, 0]} />
       {/* Cream Frosting Top */}
-      <mesh geometry={tier1CreamGeo} material={creamMaterial} position={[0, 0.795, 0]} castShadow receiveShadow />
+      <mesh geometry={tier1CreamGeo} material={creamMaterial} position={[0, 0.795, 0]} />
       {/* Tier 1 Gold Band */}
       <mesh position={[0, 0.81, 0]} material={goldBandMaterial}>
-        <cylinderGeometry args={[1.31, 1.31, 0.04, 36]} />
+        <cylinderGeometry args={[1.31, 1.31, 0.04, 32]} />
       </mesh>
       {/* Tier 1 Cream Rosettes */}
-      <CreamRosettes radius={1.31} yPos={0.88} count={24} size={0.045} material={creamMaterial} isMobile={isMobile} />
+      <CreamRosettes radius={1.31} yPos={0.88} count={24} size={0.045} material={rosetteMaterial} isMobile={isMobile} />
 
       {/* --- Tier 2 (Middle) --- */}
       {/* Cake Tier Body */}
-      <mesh geometry={tier2CakeGeo} material={cakeMaterial} position={[0, 0.8, 0]} castShadow receiveShadow />
+      <mesh geometry={tier2CakeGeo} material={cakeMaterial} position={[0, 0.8, 0]} />
       {/* Cream Frosting Top */}
-      <mesh geometry={tier2CreamGeo} material={creamMaterial} position={[0, 1.395, 0]} castShadow receiveShadow />
+      <mesh geometry={tier2CreamGeo} material={creamMaterial} position={[0, 1.395, 0]} />
       {/* Tier 2 Gold Band */}
       <mesh position={[0, 1.41, 0]} material={goldBandMaterial}>
-        <cylinderGeometry args={[0.96, 0.96, 0.035, 32]} />
+        <cylinderGeometry args={[0.96, 0.96, 0.035, 28]} />
       </mesh>
       {/* Tier 2 Cream Rosettes */}
-      <CreamRosettes radius={0.96} yPos={1.47} count={18} size={0.040} material={creamMaterial} isMobile={isMobile} />
+      <CreamRosettes radius={0.96} yPos={1.47} count={18} size={0.040} material={rosetteMaterial} isMobile={isMobile} />
 
       {/* --- Tier 3 (Top) --- */}
       {/* Cake Tier Body */}
-      <mesh geometry={tier3CakeGeo} material={cakeMaterial} position={[0, 1.4, 0]} castShadow receiveShadow />
+      <mesh geometry={tier3CakeGeo} material={cakeMaterial} position={[0, 1.4, 0]} />
       {/* Cream Frosting Top */}
-      <mesh geometry={tier3CreamGeo} material={creamMaterial} position={[0, 1.995, 0]} castShadow receiveShadow />
+      <mesh geometry={tier3CreamGeo} material={creamMaterial} position={[0, 1.995, 0]} />
       {/* Tier 3 Gold Band */}
       <mesh position={[0, 2.01, 0]} material={goldBandMaterial}>
-        <cylinderGeometry args={[0.61, 0.61, 0.03, 28]} />
+        <cylinderGeometry args={[0.61, 0.61, 0.03, 24]} />
       </mesh>
       {/* Tier 3 Cream Rosettes */}
-      <CreamRosettes radius={0.61} yPos={2.06} count={12} size={0.035} material={creamMaterial} isMobile={isMobile} />
+      <CreamRosettes radius={0.61} yPos={2.06} count={12} size={0.035} material={rosetteMaterial} isMobile={isMobile} />
 
       {/* Instanced Gold Pearls */}
       <GoldPearls count={36} />
@@ -608,10 +613,8 @@ function CandleItem({
   const flameGroupRef = useRef();
   const glowRef = useRef();
   const glowMatRef = useRef();
-  const lightRef = useRef();
 
   useEffect(() => {
-    // Clone glow material so opacity can be animated independently per flame
     if (glowRef.current && !glowMatRef.current) {
       glowMatRef.current = glowFlameMaterial.clone();
       glowRef.current.material = glowMatRef.current;
@@ -622,7 +625,6 @@ function CandleItem({
       group: flameGroupRef.current,
       glowRef,
       glowMatRef,
-      lightRef,
       offset: index * 2.3,
     };
   }, [index, glowFlameMaterial, flameDataListRef]);
@@ -630,10 +632,10 @@ function CandleItem({
   return (
     <group position={position}>
       {/* Wax Body */}
-      <mesh geometry={waxGeo} material={waxMaterial} position={[0, 0, 0]} castShadow receiveShadow />
+      <mesh geometry={waxGeo} material={waxMaterial} position={[0, 0, 0]} />
 
       {/* Wick */}
-      <mesh geometry={wickGeo} material={wickMaterial} position={[0, 0.34, 0]} castShadow receiveShadow />
+      <mesh geometry={wickGeo} material={wickMaterial} position={[0, 0.34, 0]} />
 
       {/* 3-Layer Teardrop Flame */}
       <group ref={flameGroupRef} position={[0, 0.36, 0]}>
@@ -645,9 +647,6 @@ function CandleItem({
 
         {/* Soft Outer Glow */}
         <mesh ref={glowRef} geometry={glowFlameGeo} material={glowFlameMaterial} position={[0, -0.008, 0]} />
-
-        {/* Individual Flame Point Light */}
-        <pointLight ref={lightRef} color="#FF9900" intensity={0.5} distance={1.4} decay={2.0} position={[0, 0.04, 0]} />
       </group>
     </group>
   );
@@ -693,10 +692,16 @@ function CameraController({ onIntroComplete }) {
 function CanvasDisposer() {
   const { gl } = useThree();
   useEffect(() => {
+    // Guard against React StrictMode unmount-remount cycle in dev mode
+    let isCurrent = true;
     return () => {
-      // Force cleanup of WebGL context and render loop when CakeScene unmounts
-      gl.dispose();
-      gl.forceContextLoss();
+      isCurrent = false;
+      setTimeout(() => {
+        if (!isCurrent) {
+          gl.dispose();
+          gl.forceContextLoss();
+        }
+      }, 100);
     };
   }, [gl]);
   return null;
@@ -721,12 +726,12 @@ function ThreeCakeCanvas({ isBlowing, onIntroComplete }) {
       <CanvasDisposer />
       <CameraController onIntroComplete={onIntroComplete} />
 
-      {/* Lighting Setup */}
+      {/* Lighting Setup (4 total dynamic lights) */}
       <ambientLight intensity={0.35} />
       <directionalLight position={[3, 6, 4]} intensity={0.8} color="#FFF8E7" />
       <pointLight
         ref={pointLightRef}
-        position={[0, 1.8, 0]}
+        position={[0, 1.85, 0]}
         intensity={2.2}
         color="#FFB74D"
         distance={6}
@@ -738,7 +743,6 @@ function ThreeCakeCanvas({ isBlowing, onIntroComplete }) {
         penumbra={0.8}
         color="#F5EBDD"
       />
-      <pointLight position={[-4, 2, -3]} intensity={1.5} color="#8C64DC" />
 
       {/* Procedural Cake */}
       <ProceduralCake isBlowing={isBlowing} pointLightRef={pointLightRef} isMobile={isMobile} />
