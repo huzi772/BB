@@ -112,7 +112,6 @@ export default function Letter({ onClose }) {
   };
 
   const paragraphs = (config.letterText || '').split('\n\n').filter(Boolean);
-  const recipientInitial = config.recipientName ? config.recipientName.trim()[0].toUpperCase() : 'S';
 
   return (
     <div
@@ -219,21 +218,19 @@ export default function Letter({ onClose }) {
                 display: 'flex',
                 alignItems: 'center',
                 justify: 'center',
-                color: '#3B0A17',
-                fontSize: '1.45rem',
-                fontFamily: 'Cormorant Garamond, serif',
-                fontWeight: '700',
                 userSelect: 'none'
               }}
             >
-              <span
+              {/* Inner subtle stamped wax ring */}
+              <div
                 style={{
-                  textShadow: '0 1px 1px rgba(255,255,255,0.4), 0 -1px 1px rgba(0,0,0,0.5)',
-                  transform: 'translateY(-1px)'
+                  width: '38px',
+                  height: '38px',
+                  borderRadius: '50%',
+                  border: '1px solid rgba(125, 92, 35, 0.45)',
+                  boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.15)'
                 }}
-              >
-                {recipientInitial}
-              </span>
+              />
             </div>
 
             {/* Pulsing prompt text positioned in lower envelope body */}
