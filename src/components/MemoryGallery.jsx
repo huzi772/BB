@@ -189,8 +189,8 @@ export default function MemoryGallery() {
                     style={{
                       width: '100%',
                       height: '100%',
-                      objectFit: 'cover',
-                      objectPosition: item.objectPosition || 'center top',
+                      objectFit: 'contain',
+                      objectPosition: 'center',
                       display: 'block'
                     }}
                   />
