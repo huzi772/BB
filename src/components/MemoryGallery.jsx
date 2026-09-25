@@ -92,7 +92,7 @@ export default function MemoryGallery() {
         style={{
           position: 'relative',
           width: '100%',
-          height: 'min(50vh, 380px)',
+          height: 'min(62vh, 470px)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -135,8 +135,8 @@ export default function MemoryGallery() {
               onClick={() => setCurrentIndex(idx)}
               style={{
                 position: 'absolute',
-                width: 'min(82vw, 320px)',
-                height: 'min(45vh, 340px)',
+                width: 'min(72vw, 270px)',
+                height: 'min(78vh, 435px)',
                 borderRadius: '16px',
                 background: 'var(--bg-secondary)',
                 border: '1px solid rgba(212, 175, 122, 0.4)',
@@ -158,14 +158,15 @@ export default function MemoryGallery() {
                 style={{
                   position: 'relative',
                   width: '100%',
-                  height: '75%',
+                  aspectRatio: '2 / 3',
                   borderRadius: '10px',
                   overflow: 'hidden',
                   background: '#0a0812',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  border: '1px solid rgba(212, 175, 122, 0.2)'
+                  border: '1px solid rgba(212, 175, 122, 0.2)',
+                  flexShrink: 0
                 }}
               >
                 {failedImages[idx] ? (
@@ -224,12 +225,13 @@ export default function MemoryGallery() {
               {/* Caption */}
               <div
                 style={{
-                  height: '25%',
+                  flex: 1,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  padding: '6px 8px 0 8px',
-                  textAlign: 'center'
+                  padding: '6px 4px 0 4px',
+                  textAlign: 'center',
+                  overflow: 'hidden'
                 }}
               >
                 <p
@@ -238,7 +240,7 @@ export default function MemoryGallery() {
                     fontSize: 'clamp(0.95rem, 2.5vw, 1.15rem)',
                     color: 'var(--ivory)',
                     fontStyle: 'italic',
-                    lineHeight: 1.3,
+                    lineHeight: 1.25,
                     margin: 0
                   }}
                 >
