@@ -179,3 +179,20 @@ p, .body-text {
 .glow-purple-box {
   box-shadow: 0 0 20px var(--glow-purple);
 }
+
+/* Gift Cards & Envelope Hover Effects */
+.gift-card-hover:hover,
+.gift-card-hover:focus-visible {
+  transform: translateY(-6px) scale(1.02);
+  border-color: var(--gold) !important;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.7), 0 0 20px rgba(212, 175, 122, 0.35) !important;
+}
+
+.gift-card-hover:active {
+  transform: translateY(-2px) scale(1.01);
+}
+
+.envelope-hover:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 16px 36px rgba(0,0,0,0.8), 0 0 25px rgba(212, 175, 122, 0.4) !important;
+}

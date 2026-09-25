@@ -191,9 +191,9 @@ export default function App() {
       case 'reveal':
         return <BirthdayReveal onComplete={next} />;
       case 'gifts':
-        return <GiftCenter onComplete={next} />;
+        return <GiftCenter onComplete={next} goTo={goTo} />;
       case 'final':
-        return <FinalScene onComplete={next} />;
+        return <FinalScene onComplete={next} goTo={goTo} />;
       default:
         return <EntryScreen onComplete={next} />;
     }
