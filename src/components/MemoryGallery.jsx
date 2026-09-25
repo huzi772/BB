@@ -156,6 +156,7 @@ export default function MemoryGallery() {
               {/* Image Frame */}
               <div
                 style={{
+                  position: 'relative',
                   width: '100%',
                   height: '75%',
                   borderRadius: '10px',
@@ -181,19 +182,42 @@ export default function MemoryGallery() {
                     ✦ {item.caption || `Memory #${idx + 1}`} ✦
                   </div>
                 ) : (
-                  <img
-                    src={item.src}
-                    alt={item.caption || `Memory ${idx + 1}`}
-                    loading="lazy"
-                    onError={() => handleImageError(idx)}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                      objectPosition: 'center',
-                      display: 'block'
-                    }}
-                  />
+                  <>
+                    {/* Blurred Background Image */}
+                    <img
+                      src={item.src}
+                      alt=""
+                      aria-hidden="true"
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        objectPosition: 'center',
+                        filter: 'blur(12px) brightness(0.65) saturate(1.2)',
+                        transform: 'scale(1.15)',
+                        pointerEvents: 'none'
+                      }}
+                    />
+                    {/* Crisp Foreground Image */}
+                    <img
+                      src={item.src}
+                      alt={item.caption || `Memory ${idx + 1}`}
+                      loading="lazy"
+                      onError={() => handleImageError(idx)}
+                      style={{
+                        position: 'relative',
+                        zIndex: 1,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        objectPosition: 'center',
+                        display: 'block'
+                      }}
+                    />
+                  </>
                 )}
               </div>
 
