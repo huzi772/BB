@@ -205,7 +205,7 @@ export default function App() {
   };
 
   return (
-    <div style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden', backgroundColor: '#050509' }}>
+    <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: '100dvh', overflow: 'hidden', backgroundColor: '#050509' }}>
       {/* Active Scene Content */}
       <SceneErrorBoundary>
         {renderCurrentSceneComponent()}

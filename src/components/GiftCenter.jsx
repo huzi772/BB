@@ -153,16 +153,16 @@ export default function GiftCenter({ onComplete }) {
   };
 
   return (
-    <div className="scene" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '1.5rem', textAlign: 'center' }}>
+    <div className="scene" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 'clamp(1rem, 3vw, 2rem)', textAlign: 'center', width: '100%', height: '100%', minHeight: '100dvh', boxSizing: 'border-box' }}>
       {/* Header */}
       <h2
         ref={headingRef}
         className="glow-gold-text"
         style={{
           fontFamily: 'Cormorant Garamond, serif',
-          fontSize: 'clamp(2.2rem, 5vw, 3.4rem)',
+          fontSize: 'clamp(1.6rem, 4.5vw, 3rem)',
           color: 'var(--gold)',
-          marginBottom: '2rem',
+          marginBottom: 'clamp(0.8rem, 2vh, 1.8rem)',
           letterSpacing: '2px',
           fontWeight: 400,
           opacity: 0
@@ -176,12 +176,12 @@ export default function GiftCenter({ onComplete }) {
         style={{
           display: 'flex',
           flexWrap: 'wrap',
-          gap: '1.5rem',
-          justifyContent: 'center',
+          gap: 'clamp(0.5rem, 1.5vh, 1.2rem)',
+          justify: 'center',
           alignItems: 'center',
           maxWidth: '900px',
           width: '100%',
-          marginBottom: '2.5rem'
+          marginBottom: 'clamp(0.8rem, 2vh, 2rem)'
         }}
       >
         {giftLabels.map((label, idx) => (
@@ -190,13 +190,13 @@ export default function GiftCenter({ onComplete }) {
             ref={(el) => (cardsRef.current[idx] = el)}
             onClick={() => handleOpenGift(idx)}
             style={{
-              flex: '1 1 240px',
+              flex: '1 1 clamp(200px, 28vw, 260px)',
               maxWidth: '280px',
-              minHeight: '180px',
+              minHeight: 'clamp(65px, 8.5vh, 130px)',
               background: 'var(--bg-secondary)',
               border: '1px solid rgba(212, 175, 122, 0.4)',
-              borderRadius: '16px',
-              padding: '1.5rem 1rem',
+              borderRadius: '12px',
+              padding: '0.5rem 0.6rem',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
@@ -208,13 +208,13 @@ export default function GiftCenter({ onComplete }) {
             }}
             className="gift-card-hover"
           >
-            <div style={{ marginBottom: '0.8rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div style={{ marginBottom: '0.2rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               {renderGiftIcon(idx)}
             </div>
             <h3
               style={{
                 fontFamily: 'Cormorant Garamond, serif',
-                fontSize: '1.35rem',
+                fontSize: 'clamp(1rem, 2.5vw, 1.25rem)',
                 color: 'var(--ivory)',
                 margin: 0,
                 letterSpacing: '1px',
@@ -225,12 +225,12 @@ export default function GiftCenter({ onComplete }) {
             </h3>
             <span
               style={{
-                fontSize: '0.75rem',
+                fontSize: '0.6rem',
                 fontFamily: 'Manrope, sans-serif',
                 color: 'var(--gold)',
-                marginTop: '0.8rem',
+                marginTop: '0.2rem',
                 textTransform: 'uppercase',
-                letterSpacing: '1.5px',
+                letterSpacing: '1px',
                 opacity: 0.8
               }}
             >
@@ -245,7 +245,7 @@ export default function GiftCenter({ onComplete }) {
         <button
           className="btn-gold"
           onClick={handleContinue}
-          style={{ padding: '0.9rem 2.2rem', fontSize: '0.95rem' }}
+          style={{ padding: '0.8rem 2rem', fontSize: '0.9rem' }}
         >
           {config.continueButton}
         </button>
@@ -258,7 +258,7 @@ export default function GiftCenter({ onComplete }) {
             position: 'fixed',
             top: 0,
             left: 0,
-            width: '100vw',
+            width: '100%',
             height: '100dvh',
             backgroundColor: 'rgba(5, 5, 9, 0.95)',
             backdropFilter: 'blur(10px)',
@@ -267,16 +267,17 @@ export default function GiftCenter({ onComplete }) {
             flexDirection: 'column',
             alignItems: 'center',
             justify: 'center',
-            padding: '1rem',
-            overflowY: 'auto'
+            padding: 'calc(1rem + env(safe-area-inset-top, 0px)) calc(1rem + env(safe-area-inset-right, 0px)) calc(1rem + env(safe-area-inset-bottom, 0px)) calc(1rem + env(safe-area-inset-left, 0px))',
+            overflowY: 'auto',
+            boxSizing: 'border-box'
           }}
         >
           {/* Back Button Header */}
           <div
             style={{
               position: 'absolute',
-              top: 'calc(1.5rem + env(safe-area-inset-top, 0px))',
-              left: 'calc(1.5rem + env(safe-area-inset-left, 0px))',
+              top: 'calc(1rem + env(safe-area-inset-top, 0px))',
+              left: 'calc(1rem + env(safe-area-inset-left, 0px))',
               zIndex: 9100
             }}
           >
@@ -289,13 +290,14 @@ export default function GiftCenter({ onComplete }) {
             </button>
           </div>
 
-          {/* Modal Content container based on Gift Index */}
+          {/* Modal Content container based on Gift Index - Centered Vertically */}
           <div
             key={modalKey}
             style={{
               width: '100%',
               maxWidth: '800px',
-              marginTop: '3.5rem',
+              margin: 'auto 0',
+              paddingTop: '2.5rem',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
@@ -309,8 +311,9 @@ export default function GiftCenter({ onComplete }) {
                   background: 'var(--bg-secondary)',
                   border: '1px solid var(--gold)',
                   borderRadius: '16px',
-                  padding: 'clamp(1.5rem, 5vw, 2.8rem)',
-                  maxWidth: '550px',
+                  padding: 'clamp(1.5rem, 5vw, 2.5rem)',
+                  maxWidth: '520px',
+                  width: '100%',
                   boxShadow: '0 12px 32px rgba(0,0,0,0.8), 0 0 20px rgba(212, 175, 122, 0.2)',
                   textAlign: 'center'
                 }}
