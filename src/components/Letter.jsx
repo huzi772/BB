@@ -213,9 +213,9 @@ export default function Letter({ onClose }) {
                 width: '54px',
                 height: '54px',
                 borderRadius: '50%',
-                background: 'radial-gradient(circle at 35% 35%, #F5EBDD 0%, #D4AF7A 45%, #9A7338 90%)',
+                background: 'radial-gradient(circle at 40% 40%, #EADBCE 0%, #D4AF7A 45%, #9A7338 95%)',
                 border: '2px solid #7D5C23',
-                boxShadow: '0 6px 16px rgba(0,0,0,0.65), inset 0 2px 4px rgba(255,255,255,0.5), inset 0 -3px 5px rgba(0,0,0,0.4), 0 0 16px rgba(212, 175, 122, 0.5)',
+                boxShadow: '0 6px 16px rgba(0,0,0,0.65), inset 0 1px 2px rgba(255,255,255,0.2), inset 0 -2px 4px rgba(0,0,0,0.25), 0 0 16px rgba(212, 175, 122, 0.5)',
                 display: 'flex',
                 alignItems: 'center',
                 justify: 'center',
@@ -238,7 +238,7 @@ export default function Letter({ onClose }) {
 
             {/* Pulsing prompt text positioned in lower envelope body */}
             <p
-              className="glow-pulse"
+              className="glow-text-pulse"
               style={{
                 position: 'absolute',
                 bottom: '24px',

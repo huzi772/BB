@@ -34,6 +34,15 @@
   }
 }
 
+@keyframes glowTextPulse {
+  0%, 100% {
+    text-shadow: 0 0 8px rgba(212, 175, 122, 0.3), 0 0 16px rgba(212, 175, 122, 0.2);
+  }
+  50% {
+    text-shadow: 0 0 18px rgba(212, 175, 122, 0.8), 0 0 28px rgba(212, 175, 122, 0.5);
+  }
+}
+
 /* Reusable Animation Classes */
 .fade-in {
   animation: fadeIn 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
@@ -47,6 +56,10 @@
   animation: glowPulse 3s ease-in-out infinite;
 }
 
+.glow-text-pulse {
+  animation: glowTextPulse 3s ease-in-out infinite;
+}
+
 /* Respect Reduced Motion Preferences */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
@@ -56,7 +69,8 @@
     scroll-behavior: auto !important;
   }
 
-  .glow-pulse {
+  .glow-pulse,
+  .glow-text-pulse {
     animation: none !important;
   }
 }
